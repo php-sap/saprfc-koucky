@@ -1,0 +1,50 @@
+{
+  "name": "php-sap/saprfc-koucky",
+  "description": "PHP/SAP implementation for Kouckys legacy saprfc module. See https://php-sap.github.io for details.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Gregor J.",
+      "email": "gregor-j@users.noreply.github.com"
+    }
+  ],
+  "support": {
+    "docs": "https://php-sap.github.io",
+    "issues": "https://github.com/php-sap/saprfc-koucky/issues",
+    "source": "https://github.com/php-sap/saprfc-koucky"
+  },
+  "keywords": [
+    "phpsap",
+    "php-sap",
+    "sap",
+    "saprfc",
+    "sap-rfc",
+    "rfc",
+    "remote function call",
+    "koucky"
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "~5.5.0",
+    "ext-saprfc": "*",
+    "kba-team/typecast": "~1.0.0",
+    "kba-team/sap-datetime": "~1.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "phpsap\\saprfc\\": "src/",
+      "phpsap\\interfaces\\": "interfaces/",
+      "phpsap\\exceptions\\": "common/exceptions/",
+      "phpsap\\classes\\": "common/classes"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\phpsap\\saprfc\\": "tests/"
+    }
+  }
+}
