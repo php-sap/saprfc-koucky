@@ -88,16 +88,17 @@ class SapRfcConnection extends AbstractConnection
      */
     public function connect()
     {
-        if (!$this->isConnected()) {
-            $this->connection = @saprfc_open($this->config);
-            if ($this->connection === false) {
-                $this->connection = null;
-                throw new ConnectionFailedException(sprintf(
-                    'Connection %s creation failed: %s',
-                    $this->getId(),
-                    @saprfc_error()
-                ));
-            }
+        if ($this->isConnected()) {
+            $this->close();
+        }
+        $this->connection = @saprfc_open($this->config);
+        if ($this->connection === false) {
+            $this->connection = null;
+            throw new ConnectionFailedException(sprintf(
+                'Connection %s creation failed: %s',
+                $this->getId(),
+                @saprfc_error()
+            ));
         }
     }
 }
