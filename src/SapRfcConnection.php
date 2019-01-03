@@ -87,7 +87,7 @@ class SapRfcConnection extends AbstractConnection implements IConnection
      * Creates a connection using the underlying PHP module.
      * @throws \phpsap\exceptions\ConnectionFailedException
      */
-    protected function connect()
+    public function connect()
     {
         if (!$this->isConnected()) {
             $this->connection = @saprfc_open($this->config);
