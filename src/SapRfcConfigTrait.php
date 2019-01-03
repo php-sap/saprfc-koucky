@@ -10,6 +10,8 @@
  */
 namespace phpsap\saprfc;
 
+use phpsap\exceptions\IncompleteConfigException;
+
 /**
  * Trait SapRfcConfigTrait
  *
@@ -22,35 +24,24 @@ namespace phpsap\saprfc;
 trait SapRfcConfigTrait
 {
     /**
-     * @var array list all connection parameters available
-     */
-    protected static $conParamAvail = [
-        'ASHOST',
-        'SYSNR',
-        'CLIENT',
-        'USER',
-        'PASSWD',
-        'GWHOST',
-        'GWSERV',
-        'MSHOST',
-        'R3NAME',
-        'GROUP',
-        'LANG',
-        'TRACE'
-    ];
-
-    /**
      * Generate the configuration array needed for connecting a remote SAP system
      * using Eduard Kouckys saprfc module.
      * @return array
+     * @throws \phpsap\exceptions\IncompleteConfigException
      */
     public function generateConfig()
     {
         $config = [];
-        foreach ($this->config as $key => $value) {
-            $key = strtoupper($key);
-            if (in_array($key, static::$conParamAvail, true)) {
-                $config[$key] = $value;
+        foreach (static::$conParamAvail as $key => $mandatory) {
+            $keyLower = strtolower($key);
+            if ($this->has($keyLower)) {
+                $method = sprintf('get%s', ucfirst($keyLower));
+                $config[$key] = $this->{$method}();
+            } elseif ($mandatory === true) {
+                throw new IncompleteConfigException(sprintf(
+                    'Missing mandatory key %s.',
+                    $keyLower
+                ));
             }
         }
         return $config;
