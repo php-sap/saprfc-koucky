@@ -13,7 +13,6 @@ namespace phpsap\saprfc;
 
 use phpsap\classes\AbstractConnection;
 use phpsap\exceptions\ConnectionFailedException;
-use phpsap\interfaces\IConnection;
 
 /**
  * Class phpsap\saprfc\SapRfcConnection
@@ -25,7 +24,7 @@ use phpsap\interfaces\IConnection;
  * @author  Gregor J.
  * @license MIT
  */
-class SapRfcConnection extends AbstractConnection implements IConnection
+class SapRfcConnection extends AbstractConnection
 {
     /**
      * @var int PHP module return value reporting everything was O.K.

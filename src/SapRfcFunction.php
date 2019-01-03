@@ -14,7 +14,6 @@ namespace phpsap\saprfc;
 use phpsap\classes\AbstractFunction;
 use phpsap\exceptions\FunctionCallException;
 use phpsap\exceptions\UnknownFunctionException;
-use phpsap\interfaces\IFunction;
 
 /**
  * Class phpsap\saprfc\SapRfcFunction
@@ -26,7 +25,7 @@ use phpsap\interfaces\IFunction;
  * @author  Gregor J.
  * @license MIT
  */
-class SapRfcFunction extends AbstractFunction implements IFunction
+class SapRfcFunction extends AbstractFunction
 {
     /**
      * SAP remote function ressource.
