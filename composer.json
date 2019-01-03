@@ -29,17 +29,16 @@
     "php": "~5.5.0",
     "ext-saprfc": "*",
     "kba-team/typecast": "~1.0.0",
-    "kba-team/sap-datetime": "~1.0.0"
+    "kba-team/sap-datetime": "~1.0.0",
+    "phpsap/interfaces": "dev-master",
+    "phpsap/common": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8"
   },
   "autoload": {
     "psr-4": {
-      "phpsap\\saprfc\\": "src/",
-      "phpsap\\interfaces\\": "interfaces/",
-      "phpsap\\exceptions\\": "common/exceptions/",
-      "phpsap\\classes\\": "common/classes"
+      "phpsap\\saprfc\\": "src/"
     }
   },
   "autoload-dev": {
