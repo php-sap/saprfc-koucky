@@ -34,6 +34,7 @@
     "phpsap/common": "dev-master"
   },
   "require-dev": {
+    "ext-json": "*",
     "phpunit/phpunit": "^4.8"
   },
   "autoload": {
@@ -45,5 +46,11 @@
     "psr-4": {
       "Tests\\phpsap\\saprfc\\": "tests/"
     }
+  },
+  "scripts": {
+    "tests": "vendor/bin/phpunit --coverage-text"
+  },
+  "scripts-descriptions": {
+    "tests": "Run all unit tests."
   }
 }
