@@ -53,7 +53,7 @@ class SapRfcConfigBTest extends \PHPUnit_Framework_TestCase
             'r3name' => 'system_id',
             'group' => 'logon_group',
             'lang' => 'EN',
-            'trace' => 0
+            'trace' => SapRfcConfigB::TRACE_VERBOSE
         ];
         $configJson = json_encode($configArr);
         $config = new SapRfcConfigB($configJson);
@@ -74,7 +74,7 @@ class SapRfcConfigBTest extends \PHPUnit_Framework_TestCase
         static::assertArrayHasKey('LANG', $configSaprfc);
         static::assertSame('EN', $configSaprfc['LANG']);
         static::assertArrayHasKey('TRACE', $configSaprfc);
-        static::assertSame(0, $configSaprfc['TRACE']);
+        static::assertSame(SapRfcConfigB::TRACE_VERBOSE, $configSaprfc['TRACE']);
     }
 
     /**
@@ -102,7 +102,7 @@ class SapRfcConfigBTest extends \PHPUnit_Framework_TestCase
                     'mshost' => 'sap.example.com',
                     'group' => 'logon_group',
                     'lang' => 'EN',
-                    'trace' => 0
+                    'trace' => SapRfcConfigB::TRACE_OFF
                 ],
                 'r3name'
             ]

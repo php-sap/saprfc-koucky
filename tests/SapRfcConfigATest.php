@@ -54,7 +54,7 @@ class SapRfcConfigATest extends \PHPUnit_Framework_TestCase
             'gwhost' => 'gw.example.com',
             'gwserv' => 'abc',
             'lang' => 'EN',
-            'trace' => 3
+            'trace' => SapRfcConfigA::TRACE_FULL
         ];
         $configJson = json_encode($configArr);
         $config = new SapRfcConfigA($configJson);
@@ -77,7 +77,7 @@ class SapRfcConfigATest extends \PHPUnit_Framework_TestCase
         static::assertArrayHasKey('LANG', $configSaprfc);
         static::assertSame('EN', $configSaprfc['LANG']);
         static::assertArrayHasKey('TRACE', $configSaprfc);
-        static::assertSame(3, $configSaprfc['TRACE']);
+        static::assertSame(SapRfcConfigA::TRACE_FULL, $configSaprfc['TRACE']);
     }
 
     /**
@@ -105,7 +105,7 @@ class SapRfcConfigATest extends \PHPUnit_Framework_TestCase
                     'gwhost' => 'gw.example.com',
                     'gwserv' => 'abc',
                     'lang' => 'EN',
-                    'trace' => 3
+                    'trace' => SapRfcConfigA::TRACE_BRIEF
                 ],
                 'client'
             ]
