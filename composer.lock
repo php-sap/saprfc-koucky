@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2738646963571c5917316566f692de4",
+    "content-hash": "00d3fef9b6f0842c6937c1d796a12df6",
     "packages": [
         {
             "name": "kba-team/sap-datetime",
@@ -97,12 +97,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sap/common.git",
-                "reference": "79798075da61358b1239d1b1e2073905f9d7c8bb"
+                "reference": "5ba4edc39646101c325173845df869dd556ceddf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sap/common/zipball/79798075da61358b1239d1b1e2073905f9d7c8bb",
-                "reference": "79798075da61358b1239d1b1e2073905f9d7c8bb",
+                "url": "https://api.github.com/repos/php-sap/common/zipball/5ba4edc39646101c325173845df869dd556ceddf",
+                "reference": "5ba4edc39646101c325173845df869dd556ceddf",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 "exceptions",
                 "php-sap"
             ],
-            "time": "2019-01-03T16:30:20+00:00"
+            "time": "2019-01-04T09:11:50+00:00"
         },
         {
             "name": "phpsap/interfaces",
@@ -149,12 +149,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sap/interfaces.git",
-                "reference": "cbd5475997f90a27af88f8418e2618df0637c7bd"
+                "reference": "cf6b22e4629847f0f38b75d63f94a7b9dccbbbc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sap/interfaces/zipball/cbd5475997f90a27af88f8418e2618df0637c7bd",
-                "reference": "cbd5475997f90a27af88f8418e2618df0637c7bd",
+                "url": "https://api.github.com/repos/php-sap/interfaces/zipball/cf6b22e4629847f0f38b75d63f94a7b9dccbbbc7",
+                "reference": "cf6b22e4629847f0f38b75d63f94a7b9dccbbbc7",
                 "shasum": ""
             },
             "require": {
@@ -185,7 +185,7 @@
                 "interfaces",
                 "php-sap"
             ],
-            "time": "2019-01-03T16:25:44+00:00"
+            "time": "2019-01-04T09:05:14+00:00"
         },
         {
             "name": "psr/container",
@@ -1430,5 +1430,7 @@
         "php": "~5.5.0",
         "ext-saprfc": "*"
     },
-    "platform-dev": []
+    "platform-dev": {
+        "ext-json": "*"
+    }
 }
