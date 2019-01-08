@@ -72,13 +72,8 @@ class SapRfcConnection extends AbstractConnection
      * @return \phpsap\saprfc\SapRfcFunction
      * @throws \phpsap\exceptions\ConnectionFailedException
      */
-    public function prepareFunction($name)
+    protected function createFunctionInstance($name)
     {
-        if (!is_string($name) || empty($name)) {
-            throw new \InvalidArgumentException(
-                'Missing or malformed SAP remote function name'
-            );
-        }
         return new SapRfcFunction($this->getConnection(), $name);
     }
 
