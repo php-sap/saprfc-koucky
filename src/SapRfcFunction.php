@@ -115,69 +115,101 @@ class SapRfcFunction extends AbstractFunction
     protected function getRemoteInterface()
     {
         if ($this->functionInterface === null) {
-            $this->functionInterface = @saprfc_function_interface($this->getFunction());
-            if ($this->functionInterface === false) {
-                $this->functionInterface = [];
+            $this->functionInterface = [];
+            foreach ($this->saprfcFunctionInterface() as $definition) {
+                //parameter/result name
+                $name = strtoupper($definition['name']);
+                //parameter/result members
+                $members = $definition['def'];
+                //parameter/result type
+                $type = $definition['type'];
+                if ($type !== 'TABLE'
+                    && isset($members[0]['name'])
+                    && $members[0]['name'] !== ''
+                ) {
+                    $type.= '_STRUCT';
+                }
+                //set definition
+                $this->functionInterface[$name] = [
+                    'type' => $type,
+                    'members' => $members
+                ];
             }
         }
         return $this->functionInterface;
     }
 
     /**
-     * Export function call parameters.
+     * Get remote function call interface definition.
+     * @return array
+     */
+    private function saprfcFunctionInterface()
+    {
+        $definitions = @saprfc_function_interface($this->getFunction());
+        if ($definitions === false) {
+            return [];
+        }
+        return $definitions;
+    }
+
+    /**
+     * Export all function call parameters.
      * @throws \LogicException
      */
     private function setSaprfcParameters()
     {
-        foreach ($this->getRemoteInterface() as $interface) {
-            $result = true;
-            $name = strtoupper($interface['name']);
-            $type = $interface['type'];
-            $members = $interface['def'];
-            if ($type !== 'TABLE' && $members[0]['name'] !== '') {
-                $type.= '_STRUCT';
-            }
-            switch ($type) {
-                case 'IMPORT':
-                    $result = @saprfc_import(
-                        $this->getFunction(),
-                        $name,
-                        $this->getParam($name, '')
-                    );
-                    break;
-                case 'IMPORT_STRUCT':
-                    $param = $this->getParam($name, []);
-                    foreach ($members as $member) {
-                        if (!array_key_exists($member, $param)) {
-                            $param[$member] = '';
-                        }
-                    }
-                    $result = @saprfc_import($this->getFunction(), $name, $param);
-                    break;
-                case 'EXPORT':
-                    break;
-                case 'EXPORT_STRUCT':
-                    break;
-                case 'TABLE':
-                    $result = @saprfc_table_init($this->getFunction(), $name);
-                    break;
-                default:
-                    throw new \LogicException(sprintf(
-                        'Unkown type %s in interface of function %s.',
-                        $type,
-                        $this->getName()
-                    ));
-            }
+        foreach ($this->getRemoteInterface() as $name => $definition) {
+            $result = $this->setSapRfcParameter($name, $definition['type'], $definition['members']);
             if ($result !== true) {
                 throw new \LogicException(sprintf(
                     'Assigning param %s expected type %s, actual type %s, to function %s failed.',
                     $name,
-                    $type,
+                    $definition['type'],
                     gettype($this->getParam($name)),
                     $this->getName()
                 ));
             }
         }
+    }
+
+    /**
+     * Export a single function call parameter.
+     * @param string $name The remote function call parameter name.
+     * @param string $type The remote function call parameter type.
+     * @param array $members The members of a remote function call parameter.
+     * @return bool success?
+     */
+    private function setSapRfcParameter($name, $type, $members)
+    {
+        switch ($type) {
+            case 'IMPORT':
+                $param = $this->getParam($name, '');
+                $result = @saprfc_import($this->getFunction(), $name, $param);
+                break;
+            case 'IMPORT_STRUCT':
+                $param = $this->getParam($name, []);
+                foreach ($members as $member) {
+                    if (!array_key_exists($member, $param)) {
+                        $param[$member] = '';
+                    }
+                }
+                $result = @saprfc_import($this->getFunction(), $name, $param);
+                break;
+            case 'TABLE':
+                $result = @saprfc_table_init($this->getFunction(), $name);
+                break;
+            case 'EXPORT': //fall through
+            case 'EXPORT_STRUCT':
+                $result = true;
+                break;
+            default:
+                throw new \LogicException(sprintf(
+                    'Unkown type %s in interface of function %s.',
+                    $type,
+                    $this->getName()
+                ));
+        }
+        return $result;
     }
 
     /**
@@ -188,13 +220,13 @@ class SapRfcFunction extends AbstractFunction
     private function getSaprfcResults()
     {
         $result = [];
-        foreach ($this->getRemoteInterface() as $interface) {
-            $name = strtoupper($interface['name']);
-            $type = $interface['type'];
-            switch ($type) {
-                case 'IMPORT':
+        foreach ($this->getRemoteInterface() as $name => $definition) {
+            switch ($definition['type']) {
+                case 'IMPORT': //fall through
+                case 'IMPORT_STRUCT':
                     break;
-                case 'EXPORT':
+                case 'EXPORT': //fall through
+                case 'EXPORT_STRUCT':
                     $result[$name] = trim(@saprfc_export($this->getFunction(), $name));
                     break;
                 case 'TABLE':
@@ -207,7 +239,7 @@ class SapRfcFunction extends AbstractFunction
                 default:
                     throw new \LogicException(sprintf(
                         'Unkown type %s in interface of function %s.',
-                        $type,
+                        $definition['type'],
                         $this->getName()
                     ));
             }
