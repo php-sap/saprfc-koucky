@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00d3fef9b6f0842c6937c1d796a12df6",
+    "content-hash": "3daa6a350cead8cec915dae8200f2ed7",
     "packages": [
         {
             "name": "kba-team/sap-datetime",

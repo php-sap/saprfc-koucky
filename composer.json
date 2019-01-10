@@ -35,7 +35,8 @@
   },
   "require-dev": {
     "ext-json": "*",
-    "phpunit/phpunit": "^4.8"
+    "phpunit/phpunit": "^4.8",
+    "psr/container": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -44,7 +45,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\phpsap\\saprfc\\": "tests/"
+      "tests\\phpsap\\saprfc\\": "tests/"
     }
   },
   "scripts": {

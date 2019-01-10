@@ -11,8 +11,8 @@
 
 namespace tests\phpsap\saprfc;
 
-use phpsap\saprfc\SapRfcConfigA;
 use phpsap\saprfc\SapRfcConnection;
+use tests\phpsap\saprfc\helper\AbstractSaprfcTests;
 
 /**
  * Class tests\phpsap\saprfc\SapRfcConnectionTest
@@ -22,65 +22,24 @@ use phpsap\saprfc\SapRfcConnection;
  * @package tests\phpsap\saprfc
  * @author  Gregor J.
  * @license MIT
- * @runTestsInSeparateProcesses
  */
-class SapRfcConnectionTest extends \PHPUnit_Framework_TestCase
+class SapRfcConnectionTest extends AbstractSaprfcTests
 {
-    /**
-     * Create a IConfig instance.
-     * @return \phpsap\saprfc\SapRfcConfigA
-     */
-    private static function getOfflineSapConfig()
-    {
-        $config = '{
-            "ashost": "sap.example.com",
-            "sysnr": "001",
-            "client": "01",
-            "user": "username",
-            "passwd": "password"
-        }';
-        return new SapRfcConfigA($config);
-    }
-
-    /**
-     * Create a IConfig instance.
-     * @param string $name Configuration file name (without .json).
-     * @return \phpsap\saprfc\SapRfcConfigA
-     */
-    private static function getOnlineSapConfig($name)
-    {
-        $configFile = __DIR__ . DIRECTORY_SEPARATOR
-                      . 'config'. DIRECTORY_SEPARATOR
-                      . strtolower($name)  .'.json';
-        if (file_exists($configFile) !== true) {
-            throw new \RuntimeException(sprintf('Cannot find config file %s!', $configFile));
-        }
-
-        if (($configJson = file_get_contents($configFile)) === false) {
-            throw new \RuntimeException(sprintf('Cannot read from config file %s!', $configFile));
-        }
-
-        if (($configArr = json_decode($configJson, true)) === null) {
-            throw new \RuntimeException(sprintf('Invalid JSON format in config file %s!', $configFile));
-        }
-        return new SapRfcConfigA($configArr);
-    }
-
     /**
      * Load functions mocking saprfc module functions and test their expected
      * behavior for the SuccessfulConnect test.
      */
-    private static function prepareOfflineSuccessfulConnect()
+    private static function mockSaprfcSuccessfulConnect()
     {
-        //load functions mocking saprfc module functions
-        require_once __DIR__.DIRECTORY_SEPARATOR.'helper'.DIRECTORY_SEPARATOR.'saprfcSuccessfulConnect.php';
-        //test the existance of the functions and their expected return values.
-        static::assertTrue(function_exists('saprfc_open'));
-        static::assertEquals('SAPRFC CONNECTION', saprfc_open([]));
-        static::assertTrue(function_exists('saprfc_close'));
-        $testMe = true;
-        saprfc_close($testMe);
-        static::assertNull($testMe);
+        static::mockSaprfcFunction('saprfc_open', function ($config) {
+            if (is_array($config)) {
+                return 'SAPRFC CONNECTION RESOURCE MOCK';
+            }
+            return false;
+        });
+        static::mockSaprfcFunction('saprfc_close', function (&$connection) {
+            $connection = null;
+        });
     }
 
     /**
@@ -90,7 +49,7 @@ class SapRfcConnectionTest extends \PHPUnit_Framework_TestCase
     {
         if (!extension_loaded('saprfc')) {
             //load functions mocking saprfc module functions
-            static::prepareOfflineSuccessfulConnect();
+            static::mockSaprfcSuccessfulConnect();
             //load a bogus config
             $config = static::getOfflineSapConfig();
         } else {
@@ -111,15 +70,14 @@ class SapRfcConnectionTest extends \PHPUnit_Framework_TestCase
      * Load functions mocking saprfc module functions and test their expected
      * behavior for the SaprfcFailedConnect test.
      */
-    private static function prepareOfflineSaprfcFailedConnect()
+    private static function mockSaprfcFailedConnect()
     {
-        //load functions mocking saprfc module functions
-        require_once __DIR__.DIRECTORY_SEPARATOR.'helper'.DIRECTORY_SEPARATOR.'saprfcFailedConnect.php';
-        //test the existance of the functions and their expected return values.
-        static::assertTrue(function_exists('saprfc_open'));
-        static::assertFalse(saprfc_open([]));
-        static::assertTrue(function_exists('saprfc_error'));
-        static::assertEquals('my error message', saprfc_error());
+        static::mockSaprfcFunction('saprfc_open', function ($config) {
+            return false;
+        });
+        static::mockSaprfcFunction('saprfc_error', function () {
+            return 'my error message';
+        });
     }
 
     /**
@@ -130,7 +88,7 @@ class SapRfcConnectionTest extends \PHPUnit_Framework_TestCase
     {
         if (!extension_loaded('saprfc')) {
             //load functions mocking saprfc module functions
-            static::prepareOfflineSaprfcFailedConnect();
+            static::mockSaprfcFailedConnect();
             //load a bogus config
             $config = static::getOfflineSapConfig();
         } else {
@@ -145,27 +103,35 @@ class SapRfcConnectionTest extends \PHPUnit_Framework_TestCase
      * Load functions mocking saprfc module functions and test their expected
      * behavior for the SaprfcSuccessfulPing test.
      */
-    private static function prepareOfflineSaprfcSuccessfulPing()
+    private static function mockSaprfcSuccessfulPing()
     {
-        //load functions mocking saprfc module functions
-        require_once __DIR__.DIRECTORY_SEPARATOR.'helper'.DIRECTORY_SEPARATOR.'saprfcSuccessfulPing.php';
-        //test the existance of the functions and their expected return values.
-        static::assertTrue(function_exists('saprfc_open'));
-        $connection = saprfc_open([]);
-        static::assertEquals('SAPRFC CONNECTION', $connection);
-        static::assertTrue(function_exists('saprfc_function_discover'));
-        $ping = saprfc_function_discover($connection, 'RFC_PING');
-        static::assertEquals('SAPRFC PING', $ping);
-        static::assertTrue(function_exists('saprfc_call_and_receive'));
-        $result = saprfc_call_and_receive($ping);
-        static::assertSame(0, $result);
-        static::assertTrue(function_exists('saprfc_function_free'));
-        saprfc_function_free($ping);
-        static::assertNull($ping);
-        static::assertTrue(function_exists('saprfc_function_interface'));
-        $fcinterface = saprfc_function_interface();
-        static::assertSame([], $fcinterface);
-        unset($connection, $ping, $result, $fcinterface);
+        static::mockSaprfcFunction('saprfc_open', function ($config) {
+            if (is_array($config)) {
+                return 'SAPRFC CONNECTION';
+            }
+            return false;
+        });
+        static::mockSaprfcFunction('saprfc_close', function (&$connection) {
+            $connection = null;
+        });
+        static::mockSaprfcFunction('saprfc_function_discover', function ($connection, $name) {
+            if ($connection === 'SAPRFC CONNECTION' && $name === 'RFC_PING') {
+                return 'SAPRFC PING';
+            }
+            return false;
+        });
+        static::mockSaprfcFunction('saprfc_call_and_receive', function ($function) {
+            if ($function === 'SAPRFC PING') {
+                return 0;
+            }
+            return 1;
+        });
+        static::mockSaprfcFunction('saprfc_function_free', function (&$function) {
+            $function = null;
+        });
+        static::mockSaprfcFunction('saprfc_function_interface', function () {
+            return [];
+        });
     }
 
     /**
@@ -176,7 +142,7 @@ class SapRfcConnectionTest extends \PHPUnit_Framework_TestCase
     {
         if (!extension_loaded('saprfc')) {
             //load functions mocking saprfc module functions
-            static::prepareOfflineSaprfcSuccessfulPing();
+            static::mockSaprfcSuccessfulPing();
             //load a bogus config
             $config = static::getOfflineSapConfig();
         } else {
@@ -192,28 +158,38 @@ class SapRfcConnectionTest extends \PHPUnit_Framework_TestCase
      * Load functions mocking saprfc module functions and test their expected
      * behavior for the SaprfcFailedPing test.
      */
-    public static function prepareOfflineSaprfcFailedPing()
+    public static function mockSaprfcFailedPing()
     {
-        //load functions mocking saprfc module functions
-        require_once __DIR__.DIRECTORY_SEPARATOR.'helper'.DIRECTORY_SEPARATOR.'saprfcFailedPing.php';
-        //test the existance of the functions and their expected return values.
-        static::assertTrue(function_exists('saprfc_open'));
-        $connection = saprfc_open([]);
-        static::assertEquals('SAPRFC CONNECTION', $connection);
-        static::assertTrue(function_exists('saprfc_function_discover'));
-        $ping = saprfc_function_discover($connection, 'RFC_PING');
-        static::assertEquals('SAPRFC PING', $ping);
-        static::assertTrue(function_exists('saprfc_call_and_receive'));
-        $result = saprfc_call_and_receive($ping);
-        //this time ping should fail
-        static::assertSame(1, $result);
-        static::assertTrue(function_exists('saprfc_function_free'));
-        saprfc_function_free($ping);
-        static::assertNull($ping);
-        static::assertTrue(function_exists('saprfc_function_interface'));
-        $fcinterface = saprfc_function_interface();
-        static::assertSame([], $fcinterface);
-        unset($connection, $ping, $result, $fcinterface);
+        static::mockSaprfcFunction('saprfc_open', function ($config) {
+            if (is_array($config)) {
+                return 'SAPRFC CONNECTION';
+            }
+            return false;
+        });
+        static::mockSaprfcFunction('saprfc_close', function (&$connection) {
+            $connection = null;
+        });
+        static::mockSaprfcFunction('saprfc_function_discover', function ($connection, $name) {
+            if ($connection === 'SAPRFC CONNECTION' && $name === 'RFC_PING') {
+                return 'SAPRFC PING';
+            }
+            return false;
+        });
+        static::mockSaprfcFunction('saprfc_call_and_receive', function ($function) {
+            if ($function === 'SAPRFC PING') {
+                return 1;
+            }
+            return 0;
+        });
+        static::mockSaprfcFunction('saprfc_function_free', function (&$function) {
+            $function = null;
+        });
+        static::mockSaprfcFunction('saprfc_function_interface', function () {
+            return [];
+        });
+        static::mockSaprfcFunction('saprfc_exception', function ($function) {
+            return sprintf('%s EXCEPTION', $function);
+        });
     }
 
     /**
@@ -223,7 +199,7 @@ class SapRfcConnectionTest extends \PHPUnit_Framework_TestCase
     {
         if (!extension_loaded('saprfc')) {
             //load functions mocking saprfc module functions
-            static::prepareOfflineSaprfcFailedPing();
+            static::mockSaprfcFailedPing();
             //load a bogus config
             $config = static::getOfflineSapConfig();
         } else {
