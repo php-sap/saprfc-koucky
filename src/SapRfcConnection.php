@@ -13,6 +13,7 @@ namespace phpsap\saprfc;
 
 use phpsap\classes\AbstractConnection;
 use phpsap\exceptions\ConnectionFailedException;
+use phpsap\exceptions\FunctionCallException;
 
 /**
  * Class phpsap\saprfc\SapRfcConnection
@@ -27,11 +28,6 @@ use phpsap\exceptions\ConnectionFailedException;
 class SapRfcConnection extends AbstractConnection
 {
     /**
-     * @var int PHP module return value reporting everything was O.K.
-     */
-    const SAPRFC_OK = 0;
-
-    /**
      * Send a ping request via an established connection to verify that the
      * connection works.
      * @return boolean success?
@@ -39,20 +35,13 @@ class SapRfcConnection extends AbstractConnection
      */
     public function ping()
     {
-        $this->connect();
-        $ping = @saprfc_function_discover($this->connection, 'RFC_PING');
-        if ($ping === false) {
-            /** @noinspection ForgottenDebugOutputInspection */
-            error_log(sprintf(
-                'saprfc function discover RFC_PING failed: %s',
-                @saprfc_error()
-            ));
-            $this->close();
+        $ping = $this->createFunctionInstance('RFC_PING');
+        try {
+            $ping->invoke();
+        } catch (FunctionCallException $fcex) {
             return false;
         }
-        $result = @saprfc_call_and_receive($ping);
-        @saprfc_function_free($ping);
-        return ($result === static::SAPRFC_OK);
+        return true;
     }
 
     /**

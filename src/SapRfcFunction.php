@@ -48,7 +48,7 @@ class SapRfcFunction extends AbstractFunction
     {
         $this->exportParams();
         $result = @saprfc_call_and_receive($this->getFunction());
-        if ($result !== SapRfcConnection::SAPRFC_OK) {
+        if ($result !== 0) {
             throw new FunctionCallException(sprintf(
                 'Function call %s failed: %s',
                 $this->getName(),
