@@ -22,14 +22,14 @@ function saprfc_close(&$connection)
 {
     $connection = null;
 }
-function saprfc_function_discover(&$connection, $name)
+function saprfc_function_discover($connection, $name)
 {
     if ($connection === 'SAPRFC CONNECTION' && $name === 'RFC_PING') {
         return 'SAPRFC PING';
     }
     return false;
 }
-function saprfc_call_and_receive(&$function)
+function saprfc_call_and_receive($function)
 {
     if ($function === 'SAPRFC PING') {
         return 1;
@@ -44,7 +44,7 @@ function saprfc_function_interface()
 {
     return [];
 }
-function saprfc_exception(&$function)
+function saprfc_exception($function)
 {
     return sprintf('%s EXCEPTION', $function);
 }
