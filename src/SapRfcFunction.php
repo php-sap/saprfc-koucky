@@ -28,7 +28,7 @@ use phpsap\exceptions\UnknownFunctionException;
 class SapRfcFunction extends AbstractFunction
 {
     /**
-     * SAP remote function ressource.
+     * SAP remote function resource.
      * @var mixed
      */
     private $function;
@@ -74,7 +74,7 @@ class SapRfcFunction extends AbstractFunction
 
     /**
      * Set function call parameter.
-     * All parameter names will be converted to upper case automagically.
+     * All parameter names will be converted to upper case.
      * @param string                           $name
      * @param array|string|float|int|bool|null $value
      * @return \phpsap\interfaces\IFunction $this
@@ -88,7 +88,7 @@ class SapRfcFunction extends AbstractFunction
     }
 
     /**
-     * Create a remote function call ressource.
+     * Create a remote function call resource.
      * @return mixed
      * @throws \phpsap\exceptions\UnknownFunctionException
      */
@@ -204,7 +204,7 @@ class SapRfcFunction extends AbstractFunction
                 break;
             default:
                 throw new \LogicException(sprintf(
-                    'Unkown type %s in interface of function %s.',
+                    'Unknown type %s in interface of function %s.',
                     $type,
                     $this->getName()
                 ));
@@ -238,7 +238,7 @@ class SapRfcFunction extends AbstractFunction
                     break;
                 default:
                     throw new \LogicException(sprintf(
-                        'Unkown type %s in interface of function %s.',
+                        'Unknown type %s in interface of function %s.',
                         $definition['type'],
                         $this->getName()
                     ));
