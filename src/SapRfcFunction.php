@@ -116,27 +116,40 @@ class SapRfcFunction extends AbstractFunction
     {
         if ($this->functionInterface === null) {
             $this->functionInterface = [];
-            foreach ($this->saprfcFunctionInterface() as $definition) {
-                //parameter/result name
-                $name = strtoupper($definition['name']);
-                //parameter/result members
-                $members = $definition['def'];
-                //parameter/result type
-                $type = $definition['type'];
-                if ($type !== 'TABLE'
-                    && isset($members[0]['name'])
-                    && $members[0]['name'] !== ''
-                ) {
-                    $type.= '_STRUCT';
-                }
-                //set definition
-                $this->functionInterface[$name] = [
-                    'type' => $type,
-                    'members' => $members
-                ];
+            foreach ($this->saprfcFunctionInterface() as $element) {
+                $this->importRemoteInterfaceElement($element);
             }
         }
         return $this->functionInterface;
+    }
+
+    /**
+     * Import a remote function call interface element.
+     * @param array $element
+     */
+    private function importRemoteInterfaceElement($element)
+    {
+        $name = strtoupper($element['name']);
+        $type = $this->remoteInterfaceType($element['type'], $element['def']);
+        $members = $element['def'];
+        $this->functionInterface[$name] = ['type' => $type, 'members' => $members];
+    }
+
+    /**
+     * Get the remote interface definition type.
+     * @param string $type
+     * @param array  $def
+     * @return string
+     */
+    private function remoteInterfaceType($type, $def)
+    {
+        if ($type !== 'TABLE'
+            && isset($def[0]['name'])
+            && $def[0]['name'] !== ''
+        ) {
+            return sprintf('%s_STRUCT', $type);
+        }
+        return $type;
     }
 
     /**
