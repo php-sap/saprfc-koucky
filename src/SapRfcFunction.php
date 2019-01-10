@@ -46,7 +46,7 @@ class SapRfcFunction extends AbstractFunction
      */
     protected function execute()
     {
-        $this->exportParams();
+        $this->setSaprfcParameters();
         $result = @saprfc_call_and_receive($this->getFunction());
         if ($result !== 0) {
             throw new FunctionCallException(sprintf(
@@ -55,7 +55,7 @@ class SapRfcFunction extends AbstractFunction
                 @saprfc_exception($this->getFunction())
             ));
         }
-        return $this->importResults();
+        return $this->getSaprfcResults();
     }
 
     /**
@@ -127,7 +127,7 @@ class SapRfcFunction extends AbstractFunction
      * Export function call parameters.
      * @throws \LogicException
      */
-    private function exportParams()
+    private function setSaprfcParameters()
     {
         foreach ($this->getRemoteInterface() as $interface) {
             $result = true;
@@ -185,7 +185,7 @@ class SapRfcFunction extends AbstractFunction
      * @return array
      * @throws \LogicException
      */
-    private function importResults()
+    private function getSaprfcResults()
     {
         $result = [];
         foreach ($this->getRemoteInterface() as $interface) {
