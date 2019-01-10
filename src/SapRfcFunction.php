@@ -92,7 +92,7 @@ class SapRfcFunction extends AbstractFunction
      * @return mixed
      * @throws \phpsap\exceptions\UnknownFunctionException
      */
-    protected function &getFunction()
+    protected function getFunction()
     {
         if ($this->function === null) {
             $this->function = @saprfc_function_discover($this->connection, $this->getName());
@@ -112,7 +112,7 @@ class SapRfcFunction extends AbstractFunction
      * Retrieve the interface of the remote function.
      * @return array
      */
-    protected function &getRemoteInterface()
+    protected function getRemoteInterface()
     {
         if ($this->functionInterface === null) {
             $this->functionInterface = @saprfc_function_interface($this->getFunction());

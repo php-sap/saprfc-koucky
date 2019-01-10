@@ -97,12 +97,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sap/common.git",
-                "reference": "31be29232e1c9c24e09402634d69bec812a4198f"
+                "reference": "1285539856c8be51a9159fd9b83b01f5dba1e6d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sap/common/zipball/31be29232e1c9c24e09402634d69bec812a4198f",
-                "reference": "31be29232e1c9c24e09402634d69bec812a4198f",
+                "url": "https://api.github.com/repos/php-sap/common/zipball/1285539856c8be51a9159fd9b83b01f5dba1e6d3",
+                "reference": "1285539856c8be51a9159fd9b83b01f5dba1e6d3",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 "exceptions",
                 "php-sap"
             ],
-            "time": "2019-01-08T14:13:48+00:00"
+            "time": "2019-01-10T12:43:48+00:00"
         },
         {
             "name": "phpsap/interfaces",
