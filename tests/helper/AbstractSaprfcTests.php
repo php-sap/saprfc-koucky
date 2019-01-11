@@ -47,8 +47,10 @@ class AbstractSaprfcTests extends \PHPUnit_Framework_TestCase
      */
     protected static function getOnlineSapConfig($name)
     {
-        $configFile = __DIR__ . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
-                      . strtolower($name) . '.json';
+        $configFile = realpath(__DIR__ . DIRECTORY_SEPARATOR
+                      . '..' . DIRECTORY_SEPARATOR
+                      . 'config' . DIRECTORY_SEPARATOR
+                      . strtolower($name) . '.json');
         if (file_exists($configFile) !== true) {
             throw new \RuntimeException(sprintf('Cannot find config file %s!', $configFile));
         }
