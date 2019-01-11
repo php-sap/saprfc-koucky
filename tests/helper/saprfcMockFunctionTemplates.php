@@ -89,12 +89,13 @@ function saprfc_call_and_receive($function)
 
 /**
  * Get remote function call interface defintion.
+ * @param resource $function The remote function call resource.
  * @return array
  */
-function saprfc_function_interface()
+function saprfc_function_interface($function)
 {
     $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
-    return $func();
+    return $func($function);
 }
 
 /**
