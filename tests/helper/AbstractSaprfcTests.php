@@ -69,6 +69,6 @@ class AbstractSaprfcTests extends \PHPUnit_Framework_TestCase
      */
     protected static function mockSaprfcFunction($name, $function)
     {
-        SaprfcMockFunctions::instance()->mock($name, $function);
+        SaprfcMockFunctions::singleton()->mock($name, $function);
     }
 }

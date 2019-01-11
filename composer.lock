@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3daa6a350cead8cec915dae8200f2ed7",
+    "content-hash": "e41e1c1ac32dfccf4153c9fdfe58c15b",
     "packages": [
         {
             "name": "kba-team/sap-datetime",
@@ -291,6 +291,54 @@
                 "instantiate"
             ],
             "time": "2015-06-14T21:17:01+00:00"
+        },
+        {
+            "name": "kba-team/memory-container",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/the-kbA-team/memory-container.git",
+                "reference": "38bfdbeb64d3e4cc2c0f21bc7c09e325e50f8b87"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/the-kbA-team/memory-container/zipball/38bfdbeb64d3e4cc2c0f21bc7c09e325e50f8b87",
+                "reference": "38bfdbeb64d3e4cc2c0f21bc7c09e325e50f8b87",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5|^7.0",
+                "psr/container": "^1.0"
+            },
+            "provide": {
+                "psr/container": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kbATeam\\MemoryContainer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gregor J."
+                }
+            ],
+            "description": "PSR-11 container storing its values in memory and offering a singleton access.",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "in-memory",
+                "singleton"
+            ],
+            "time": "2019-01-11T11:24:37+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

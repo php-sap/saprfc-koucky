@@ -11,9 +11,7 @@
 
 namespace tests\phpsap\saprfc\helper;
 
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use kbATeam\MemoryContainer\Container;
 
 /**
  * Class tests\phpsap\saprfc\helper\SaprfcMockFunctions
@@ -24,96 +22,69 @@ use Psr\Container\NotFoundExceptionInterface;
  * @author  Gregor J.
  * @license MIT
  */
-class SaprfcMockFunctions implements ContainerInterface
+class SaprfcMockFunctions extends Container
 {
     /**
-     * @var array of anonymous functions
+     * @var array Valid SAPRFC function names.
      */
-    private $functions;
+    private static $validFunctionNames = [
+        'saprfc_close',
+        'saprfc_function_free',
+        'saprfc_error',
+        'saprfc_exception',
+        'saprfc_open',
+        'saprfc_function_discover',
+        'saprfc_call_and_receive',
+        'saprfc_function_interface',
+        'saprfc_import',
+        'saprfc_table_init',
+        'saprfc_export',
+        'saprfc_table_rows',
+        'saprfc_table_read'
+    ];
 
     /**
-     * Finds an entry of the container by its identifier and returns it.
-     *
-     * @param string $name Identifier of the entry to look for.
-     *
-     * @throws NotFoundExceptionInterface  No entry was found for **this**
-     *                                     identifier.
-     * @throws ContainerExceptionInterface Error while retrieving the entry.
-     *
-     * @return mixed Entry.
-     */
-    public function get($name)
-    {
-        if ($this->has($name)) {
-            return $this->functions[$name];
-        }
-        throw new SaprfcMockFunctionNotFoundException(sprintf(
-            'Cannot find function %s',
-            $name
-        ));
-    }
-
-    /**
-     * Returns true if the container can return an entry for the given identifier.
-     * Returns false otherwise.
-     *
-     * `has($id)` returning true does not mean that `get($id)` will not throw an
-     * exception. It does however mean that `get($id)` will not throw a
-     * `NotFoundExceptionInterface`.
-     *
-     * @param string $name Identifier of the entry to look for.
-     *
-     * @return bool
-     */
-    public function has($name)
-    {
-        return array_key_exists($name, $this->functions);
-    }
-
-    /**
-     * Set an entry.
-     * @param string   $name     function name
-     * @param \Closure $function Anonymous function or closure.
-     * @return \tests\phpsap\saprfc\helper\SaprfcMockFunctions
+     * Add a function mock.
+     * @param  string   $name     function name
+     * @param  \Closure $function Anonymous function or closure.
+     * @throws \InvalidArgumentException
      */
     public function mock($name, $function)
     {
-        if (!is_string($name) || empty(trim($name))) {
-            throw new \InvalidArgumentException('Expect function name to be a string!');
-        }
+        $nameValid = $this->validateId($name);
         if (!is_object($function) && ! $function instanceof \Closure) {
             throw new \InvalidArgumentException('Expect function to be closure!');
         }
-        $this->functions[$name] = $function;
-        return $this;
+        $this->set($nameValid, $function);
     }
 
     /**
-     * Always returns the same instance.
-     *
-     * Singleton pattern taken from Stackoverflow ;-)
-     * https://stackoverflow.com/questions/203336/creating-the-singleton-design-pattern-in-php5
-     *
-     * @return \tests\phpsap\saprfc\helper\SaprfcMockFunctions
+     * Validate an ID for the other methods.
+     * @param  mixed  $name  The function name to validate.
+     * @return string
+     * @throws \InvalidArgumentException The function name was no string or an empty
+     *         string, or not in the list of templates.
      */
-    public static function instance()
+    protected function validateId($name)
     {
-        static $instance = null;
-        if ($instance === null) {
-            $instance = new SaprfcMockFunctions();
+        $return = parent::validateId($name);
+        if (!in_array($return, static::$validFunctionNames, true)) {
+            throw new \InvalidArgumentException(sprintf(
+                '%s function not defined in template.',
+                $return
+            ));
         }
-        return $instance;
+        return $return;
     }
 
     /**
      * SaprfcMockFunctions constructor.
      */
-    private function __construct()
+    public function __construct()
     {
         if (extension_loaded('saprfc')) {
-            throw new \RuntimeException('Extension saprfc is loaded. Cannot run test.');
+            throw new \RuntimeException('Extension saprfc is loaded. Cannot run tests using mockups.');
         }
-        $this->functions = [];
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'saprfcMockFunctionTemplates.php';
     }
 }
