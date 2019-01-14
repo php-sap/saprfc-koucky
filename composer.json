@@ -28,8 +28,6 @@
   "require": {
     "php": "~5.5.0",
     "ext-saprfc": "*",
-    "kba-team/typecast": "~1.0.0",
-    "kba-team/sap-datetime": "~1.0.0",
     "phpsap/interfaces": "dev-master",
     "phpsap/common": "dev-master"
   },
@@ -49,7 +47,7 @@
     }
   },
   "scripts": {
-    "tests": "vendor/bin/phpunit --coverage-text"
+    "tests": "vendor/bin/phpunit"
   },
   "scripts-descriptions": {
     "tests": "Run all unit tests."

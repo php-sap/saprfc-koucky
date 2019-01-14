@@ -4,54 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e41e1c1ac32dfccf4153c9fdfe58c15b",
+    "content-hash": "a6f7857863d89870b0f8debe76d079fd",
     "packages": [
-        {
-            "name": "kba-team/sap-datetime",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/the-kbA-team/sap-datetime.git",
-                "reference": "eb093b7987e6b43e33b5de7dacab511eb4c5f033"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/the-kbA-team/sap-datetime/zipball/eb093b7987e6b43e33b5de7dacab511eb4c5f033",
-                "reference": "eb093b7987e6b43e33b5de7dacab511eb4c5f033",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "kbATeam\\SapDateTime\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Gregor J."
-                }
-            ],
-            "description": "Extends PHP's DateTime class by SAP week, date and timestamp format.",
-            "keywords": [
-                "PHPSAP",
-                "date",
-                "datetime",
-                "sap",
-                "timestamp",
-                "week"
-            ],
-            "time": "2018-11-15T13:32:52+00:00"
-        },
         {
             "name": "kba-team/typecast",
             "version": "v1.0.1-stable",
