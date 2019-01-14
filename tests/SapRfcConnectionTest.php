@@ -26,8 +26,7 @@ use tests\phpsap\saprfc\helper\AbstractSaprfcTests;
 class SapRfcConnectionTest extends AbstractSaprfcTests
 {
     /**
-     * Load functions mocking saprfc module functions and test their expected
-     * behavior for the SuccessfulConnect test.
+     * Mock SAPRFC functions necessary to perform a successful connection attempt.
      */
     private static function mockSaprfcSuccessfulConnect()
     {
@@ -67,8 +66,7 @@ class SapRfcConnectionTest extends AbstractSaprfcTests
     }
 
     /**
-     * Load functions mocking saprfc module functions and test their expected
-     * behavior for the SaprfcFailedConnect test.
+     * Mock SAPRFC functions necessary to perform a failed connection attempt.
      */
     private static function mockSaprfcFailedConnect()
     {
@@ -100,8 +98,7 @@ class SapRfcConnectionTest extends AbstractSaprfcTests
     }
 
     /**
-     * Load functions mocking saprfc module functions and test their expected
-     * behavior for the SaprfcSuccessfulPing test.
+     * Mock SAPRFC functions necessary to perform a successful connection ping.
      */
     private static function mockSaprfcSuccessfulPing()
     {
@@ -136,7 +133,6 @@ class SapRfcConnectionTest extends AbstractSaprfcTests
 
     /**
      * Successfully ping a connection.
-     * @group offline
      */
     public function testSaprfcSuccessfulPing()
     {
@@ -155,8 +151,7 @@ class SapRfcConnectionTest extends AbstractSaprfcTests
     }
 
     /**
-     * Load functions mocking saprfc module functions and test their expected
-     * behavior for the SaprfcFailedPing test.
+     * Mock SAPRFC functions necessary to perform a failed connection ping.
      */
     public static function mockSaprfcFailedPing()
     {

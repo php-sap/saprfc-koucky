@@ -462,6 +462,9 @@ class SapRfcFunctionTest extends AbstractSaprfcTests
         });
     }
 
+    /**
+     * Test successful SAP remote function call with parameters and results.
+     */
     public function testRemoteFunctionCallWithParametersAndResults()
     {
         if (!extension_loaded('saprfc')) {
