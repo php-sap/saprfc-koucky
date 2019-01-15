@@ -34,7 +34,8 @@
   "require-dev": {
     "ext-json": "*",
     "phpunit/phpunit": "^4.8",
-    "kba-team/memory-container": "^1.0"
+    "kba-team/memory-container": "^1.0",
+    "phpsap/integration-tests": "dev-master"
   },
   "autoload": {
     "psr-4": {

@@ -8,11 +8,13 @@
  * @author  Gregor J.
  * @license MIT
  */
+/**
+ * Either run tests using this mock of the sapnwrfc class or run the tests with the
+ * actual module and an actual SAP system.
+ */
 if (extension_loaded('saprfc')) {
-    throw new \RuntimeException('Extension saprfc is loaded. Cannot run tests using mockups.');
+    throw new \RuntimeException('PHP module saprfc is loaded. Cannot run tests using mockups.');
 }
-
-use \tests\phpsap\saprfc\helper\SaprfcMockFunctions;
 
 /**
  * Close connection resource.
@@ -38,7 +40,7 @@ function saprfc_function_free(&$function)
  */
 function saprfc_error()
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func();
 }
 
@@ -49,7 +51,7 @@ function saprfc_error()
  */
 function saprfc_exception($function)
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func($function);
 }
 
@@ -60,7 +62,7 @@ function saprfc_exception($function)
  */
 function saprfc_open($config)
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func($config);
 }
 
@@ -72,7 +74,7 @@ function saprfc_open($config)
  */
 function saprfc_function_discover($connection, $name)
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func($connection, $name);
 }
 
@@ -83,7 +85,7 @@ function saprfc_function_discover($connection, $name)
  */
 function saprfc_call_and_receive($function)
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func($function);
 }
 
@@ -94,7 +96,7 @@ function saprfc_call_and_receive($function)
  */
 function saprfc_function_interface($function)
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func($function);
 }
 
@@ -107,7 +109,7 @@ function saprfc_function_interface($function)
  */
 function saprfc_import($function, $name, $value)
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func($function, $name, $value);
 }
 
@@ -119,7 +121,7 @@ function saprfc_import($function, $name, $value)
  */
 function saprfc_table_init($function, $name)
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func($function, $name);
 }
 
@@ -131,7 +133,7 @@ function saprfc_table_init($function, $name)
  */
 function saprfc_export($function, $name)
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func($function, $name);
 }
 
@@ -143,7 +145,7 @@ function saprfc_export($function, $name)
  */
 function saprfc_table_rows($function, $name)
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func($function, $name);
 }
 
@@ -156,6 +158,6 @@ function saprfc_table_rows($function, $name)
  */
 function saprfc_table_read($function, $name, $index)
 {
-    $func = SaprfcMockFunctions::singleton()->get(__FUNCTION__);
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
     return $func($function, $name, $index);
 }

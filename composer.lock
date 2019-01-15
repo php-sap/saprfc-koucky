@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a6f7857863d89870b0f8debe76d079fd",
+    "content-hash": "607891e26bb0c9285d93a21ce07429d0",
     "packages": [
         {
             "name": "kba-team/typecast",
@@ -439,6 +439,47 @@
                 }
             ],
             "time": "2017-06-03T08:32:36+00:00"
+        },
+        {
+            "name": "phpsap/integration-tests",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-sap/integration-tests.git",
+                "reference": "05774e97e11484b10f1e91298e0b009da88ad5fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-sap/integration-tests/zipball/05774e97e11484b10f1e91298e0b009da88ad5fa",
+                "reference": "05774e97e11484b10f1e91298e0b009da88ad5fa",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "kba-team/memory-container": "^1.0",
+                "php": "^5.5|^7.0",
+                "phpsap/common": "dev-master",
+                "phpsap/interfaces": "dev-master",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phpsap\\IntegrationTests\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gregor J.",
+                    "email": "gregor-j@users.noreply.github.com"
+                }
+            ],
+            "description": "PHP/SAP integration tests.",
+            "time": "2019-01-15T11:13:55+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -1424,7 +1465,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "phpsap/interfaces": 20,
-        "phpsap/common": 20
+        "phpsap/common": 20,
+        "phpsap/integration-tests": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
