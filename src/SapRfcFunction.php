@@ -175,7 +175,7 @@ class SapRfcFunction extends AbstractFunction
             $result = $this->setSapRfcParameter($name, $definition['type'], $definition['members']);
             if ($result !== true) {
                 throw new \LogicException(sprintf(
-                    'Assigning param %s expected type %s, actual type %s, to function %s failed.',
+                    'Assigning param %s, type %s, value %s to function %s failed.',
                     $name,
                     $definition['type'],
                     gettype($this->getParam($name)),
