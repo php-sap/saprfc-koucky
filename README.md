@@ -1,7 +1,5 @@
 # PHP/SAP implementation for Kouckys legacy saprfc module
 
-**ATTENTION: THIS IS WORK IN PROGRESS AND NOT TO BE USED UNTIL THIS MESSAGE DISAPPEARS!**
-
 [![License: MIT][license-mit]](LICENSE)
 [![Build Status][travis-badge]][travis-ci]
 [![Maintainability][maintainability-badge]][maintainability]
