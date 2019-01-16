@@ -28,10 +28,14 @@ use phpsap\exceptions\UnknownFunctionException;
 class SapRfcFunction extends AbstractFunction
 {
     /**
-     * SAP remote function resource.
-     * @var mixed
+     * @var mixed SAP connection resource.
      */
-    private $function;
+    protected $connection;
+
+    /**
+     * @var mixed SAP remote function resource.
+     */
+    protected $function;
 
     /**
      * SAP remote function interface.
@@ -43,16 +47,17 @@ class SapRfcFunction extends AbstractFunction
      * Invoke the prepared function call.
      * @return array
      * @throws \phpsap\exceptions\FunctionCallException
+     * @throws \LogicException
      */
     protected function execute()
     {
         $this->setSaprfcParameters();
-        $result = @saprfc_call_and_receive($this->getFunction());
+        $result = @saprfc_call_and_receive($this->function);
         if ($result !== 0) {
             throw new FunctionCallException(sprintf(
                 'Function call %s failed: %s',
                 $this->getName(),
-                @saprfc_exception($this->getFunction())
+                @saprfc_exception($this->function)
             ));
         }
         return $this->getSaprfcResults();
@@ -78,6 +83,7 @@ class SapRfcFunction extends AbstractFunction
      * @param string                           $name
      * @param array|string|float|int|bool|null $value
      * @return \phpsap\interfaces\IFunction $this
+     * @throws \InvalidArgumentException
      */
     public function setParam($name, $value)
     {
@@ -94,18 +100,16 @@ class SapRfcFunction extends AbstractFunction
      */
     protected function getFunction()
     {
-        if ($this->function === null) {
-            $this->function = @saprfc_function_discover($this->connection, $this->getName());
-            if ($this->function === false) {
-                $this->function = null;
-                throw new UnknownFunctionException(sprintf(
-                    'Unknown function %s: %s',
-                    $this->getName(),
-                    @saprfc_error()
-                ));
-            }
+        $function = @saprfc_function_discover($this->connection, $this->getName());
+        if ($function === false) {
+            $function = null;
+            throw new UnknownFunctionException(sprintf(
+                'Unknown function %s: %s',
+                $this->getName(),
+                @saprfc_error()
+            ));
         }
-        return $this->function;
+        return $function;
     }
 
     /**
@@ -158,7 +162,7 @@ class SapRfcFunction extends AbstractFunction
      */
     private function saprfcFunctionInterface()
     {
-        $definitions = @saprfc_function_interface($this->getFunction());
+        $definitions = @saprfc_function_interface($this->function);
         if ($definitions === false) {
             return [];
         }
@@ -191,13 +195,14 @@ class SapRfcFunction extends AbstractFunction
      * @param string $type The remote function call parameter type.
      * @param array $members The members of a remote function call parameter.
      * @return bool success?
+     * @throws \LogicException
      */
     private function setSapRfcParameter($name, $type, $members)
     {
         switch ($type) {
             case 'IMPORT':
                 $param = $this->getParam($name, '');
-                $result = @saprfc_import($this->getFunction(), $name, $param);
+                $result = @saprfc_import($this->function, $name, $param);
                 break;
             case 'IMPORT_STRUCT':
                 $param = $this->getParam($name, []);
@@ -206,10 +211,10 @@ class SapRfcFunction extends AbstractFunction
                         $param[$member] = '';
                     }
                 }
-                $result = @saprfc_import($this->getFunction(), $name, $param);
+                $result = @saprfc_import($this->function, $name, $param);
                 break;
             case 'TABLE':
-                $result = @saprfc_table_init($this->getFunction(), $name);
+                $result = @saprfc_table_init($this->function, $name);
                 break;
             case 'EXPORT': //fall through
             case 'EXPORT_STRUCT':
@@ -240,13 +245,13 @@ class SapRfcFunction extends AbstractFunction
                     break;
                 case 'EXPORT': //fall through
                 case 'EXPORT_STRUCT':
-                    $result[$name] = trim(@saprfc_export($this->getFunction(), $name));
+                    $result[$name] = trim(@saprfc_export($this->function, $name));
                     break;
                 case 'TABLE':
                     $result[$name] = [];
-                    $max = @saprfc_table_rows($this->getFunction(), $this->getName());
+                    $max = @saprfc_table_rows($this->function, $this->getName());
                     for ($index = 1; $index <= $max; $index++) {
-                        $result[$name][] = @saprfc_table_read($this->getFunction(), $this->getName(), $index);
+                        $result[$name][] = @saprfc_table_read($this->function, $this->getName(), $index);
                     }
                     break;
                 default:
