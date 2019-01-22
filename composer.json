@@ -25,7 +25,8 @@
     "php-sap/interfaces": "~1.0.0"
   },
   "conflict": {
-    "php-sap/saprfc-harding": "*"
+    "php-sap/saprfc-harding": "*",
+    "php-sap/saprfc-kralik": "*"
   },
   "minimum-stability": "stable",
   "require": {
