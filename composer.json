@@ -32,7 +32,7 @@
     "php": "~5.5.0",
     "ext-saprfc": "*",
     "php-sap/interfaces": "^1.0",
-    "php-sap/common": "^1.0"
+    "php-sap/common": "^2.0"
   },
   "require-dev": {
     "ext-json": "*",
