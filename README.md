@@ -7,6 +7,30 @@
 
 This repository implements the [PHP/SAP][phpsap] interface for [Eduard Kouckys legacy saprfc PHP module][koucky].
 
+## Usage
+
+```sh
+composer require php-sap/saprfc-harding:^1.0
+```
+
+```php
+<?php
+use phpsap\saprfc\SapRfcConfigA;
+use phpsap\saprfc\SapRfcConnection;
+
+$result = (new SapRfcConnection(new SapRfcConfigA([
+  'ashost' => 'sap.example.com',
+  'sysnr' => '001',
+  'client' => '002',
+  'user' => 'username',
+  'passwd' => 'password'
+])))
+    ->prepareFunction('MY_COOL_SAP_REMOTE_FUNCTION')
+    ->invoke(['INPUT_PARAM' => 'value']);
+```
+
+For further documentation, please read the documentation on [PHP/SAP][phpsap]!
+
 [phpsap]: https://php-sap.github.io
 [koucky]: http://saprfc.sourceforge.net/ "SAPRFC extension module for PHP"
 [license-mit]: https://img.shields.io/badge/license-MIT-blue.svg
