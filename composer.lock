@@ -4,26 +4,26 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57dc5597b8edc85749479e59c8e04e57",
+    "content-hash": "244bc31803b2dc3c23c68baa9d4e7b76",
     "packages": [
         {
             "name": "php-sap/common",
-            "version": "v2.1.0",
+            "version": "v3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sap/common.git",
-                "reference": "b8c44683143fd4d122ef6928a49304b7d692f431"
+                "reference": "0357478f198a7ad8224bcaa6503289a0eaed3bf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sap/common/zipball/b8c44683143fd4d122ef6928a49304b7d692f431",
-                "reference": "b8c44683143fd4d122ef6928a49304b7d692f431",
+                "url": "https://api.github.com/repos/php-sap/common/zipball/0357478f198a7ad8224bcaa6503289a0eaed3bf6",
+                "reference": "0357478f198a7ad8224bcaa6503289a0eaed3bf6",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": ">=5.5.0",
-                "php-sap/interfaces": "^1.0",
+                "php-sap/interfaces": "v2.x-dev",
                 "psr/container": "^1.0"
             },
             "require-dev": {
@@ -56,23 +56,24 @@
                 "PHPSAP",
                 "php-sap"
             ],
-            "time": "2019-01-23T11:06:58+00:00"
+            "time": "2019-10-29T15:51:06+00:00"
         },
         {
             "name": "php-sap/interfaces",
-            "version": "v1.0.0",
+            "version": "v2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sap/interfaces.git",
-                "reference": "4df96cbf6eb792463641ab55611173e7e6fd2761"
+                "reference": "a1ebdfce972dab48410014d11d426ea850784890"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sap/interfaces/zipball/4df96cbf6eb792463641ab55611173e7e6fd2761",
-                "reference": "4df96cbf6eb792463641ab55611173e7e6fd2761",
+                "url": "https://api.github.com/repos/php-sap/interfaces/zipball/a1ebdfce972dab48410014d11d426ea850784890",
+                "reference": "a1ebdfce972dab48410014d11d426ea850784890",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php": ">=5.5.0"
             },
             "conflict": {
@@ -102,7 +103,7 @@
                 "interfaces",
                 "php-sap"
             ],
-            "time": "2019-01-16T08:33:23+00:00"
+            "time": "2019-10-29T15:33:14+00:00"
         },
         {
             "name": "psr/container",
@@ -259,24 +260,24 @@
         },
         {
             "name": "php-sap/integration-tests",
-            "version": "v1.0.4",
+            "version": "dev-php5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sap/integration-tests.git",
-                "reference": "9b2e64148f234cf877c4f630bb4905ccc14cb602"
+                "reference": "884ad7a983b3f7c098811b022d243f64561a9930"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sap/integration-tests/zipball/9b2e64148f234cf877c4f630bb4905ccc14cb602",
-                "reference": "9b2e64148f234cf877c4f630bb4905ccc14cb602",
+                "url": "https://api.github.com/repos/php-sap/integration-tests/zipball/884ad7a983b3f7c098811b022d243f64561a9930",
+                "reference": "884ad7a983b3f7c098811b022d243f64561a9930",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "kba-team/memory-container": "^1.0",
                 "php": "^5.5",
-                "php-sap/common": "^2.0",
-                "php-sap/interfaces": "^1.0",
+                "php-sap/common": "v3.x-dev",
+                "php-sap/interfaces": "v2.x-dev",
                 "phpunit/phpunit": "^4.8"
             },
             "type": "library",
@@ -298,7 +299,7 @@
             ],
             "description": "PHP/SAP integration tests.",
             "homepage": "https://php-sap.github.io/",
-            "time": "2019-01-23T12:34:30+00:00"
+            "time": "2019-10-30T09:20:07+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -448,22 +449,22 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "4ba436b55987b4bf311cb7c6ba82aa528aac0a06"
+                "reference": "f6811d96d97bdf400077a0cc100ae56aa32b9203"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/4ba436b55987b4bf311cb7c6ba82aa528aac0a06",
-                "reference": "4ba436b55987b4bf311cb7c6ba82aa528aac0a06",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/f6811d96d97bdf400077a0cc100ae56aa32b9203",
+                "reference": "f6811d96d97bdf400077a0cc100ae56aa32b9203",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
                 "php": "^5.3|^7.0",
-                "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0",
+                "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0|^5.0",
                 "sebastian/comparator": "^1.1|^2.0|^3.0",
                 "sebastian/recursion-context": "^1.0|^2.0|^3.0"
             },
@@ -478,8 +479,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Prophecy\\": "src/"
+                "psr-4": {
+                    "Prophecy\\": "src/Prophecy"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -507,7 +508,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2018-08-05T17:53:17+00:00"
+            "time": "2019-10-03T11:07:50+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -883,6 +884,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-10-02T06:51:40+00:00"
         },
         {
@@ -1259,16 +1261,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.10.0",
+            "version": "v1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
+                "reference": "550ebaac289296ce228a706d0867afc34687e3f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/550ebaac289296ce228a706d0867afc34687e3f4",
+                "reference": "550ebaac289296ce228a706d0867afc34687e3f4",
                 "shasum": ""
             },
             "require": {
@@ -1280,7 +1282,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.12-dev"
                 }
             },
             "autoload": {
@@ -1297,12 +1299,12 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "name": "Gert de Pagter",
+                    "email": "BackEndTea@gmail.com"
                 },
                 {
-                    "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -1313,20 +1315,20 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2018-08-06T14:22:27+00:00"
+            "time": "2019-08-06T08:03:45+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.21",
+            "version": "v3.4.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "554a59a1ccbaac238a89b19c8e551a556fd0e2ea"
+                "reference": "768f817446da74a776a31eea335540f9dcb53942"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/554a59a1ccbaac238a89b19c8e551a556fd0e2ea",
-                "reference": "554a59a1ccbaac238a89b19c8e551a556fd0e2ea",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/768f817446da74a776a31eea335540f9dcb53942",
+                "reference": "768f817446da74a776a31eea335540f9dcb53942",
                 "shasum": ""
             },
             "require": {
@@ -1372,20 +1374,20 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2019-01-01T13:45:19+00:00"
+            "time": "2019-09-10T10:38:46+00:00"
         },
         {
             "name": "webmozart/assert",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9"
+                "reference": "88e6d84706d09a236046d686bbea96f07b3a34f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/83e253c8e0be5b0257b881e1827274667c5c17a9",
-                "reference": "83e253c8e0be5b0257b881e1827274667c5c17a9",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/88e6d84706d09a236046d686bbea96f07b3a34f4",
+                "reference": "88e6d84706d09a236046d686bbea96f07b3a34f4",
                 "shasum": ""
             },
             "require": {
@@ -1393,8 +1395,7 @@
                 "symfony/polyfill-ctype": "^1.8"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.6",
-                "sebastian/version": "^1.0.1"
+                "phpunit/phpunit": "^4.8.36 || ^7.5.13"
             },
             "type": "library",
             "extra": {
@@ -1423,12 +1424,16 @@
                 "check",
                 "validate"
             ],
-            "time": "2018-12-25T11:19:39+00:00"
+            "time": "2019-08-24T08:43:50+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "php-sap/interfaces": 20,
+        "php-sap/common": 20,
+        "php-sap/integration-tests": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
