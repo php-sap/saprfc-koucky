@@ -11,7 +11,9 @@
 
 namespace phpsap\saprfc;
 
+use phpsap\interfaces\exceptions\IIncompleteConfigException;
 use phpsap\interfaces\IConfig;
+use phpsap\interfaces\IConnection;
 
 /**
  * Class phpsap\saprfc\AbstractRemoteFunctionCall
@@ -26,9 +28,9 @@ abstract class AbstractRemoteFunctionCall extends \phpsap\classes\AbstractRemote
 {
     /**
      * Create a connection instance using the given config.
-     * @param \phpsap\interfaces\IConfig $config
-     * @return \phpsap\interfaces\IConnection|\phpsap\saprfc\SapRfcConnection
-     * @throws \phpsap\interfaces\exceptions\IIncompleteConfigException
+     * @param IConfig $config
+     * @return IConnection|SapRfcConnection
+     * @throws IIncompleteConfigException
      */
     protected function createConnectionInstance(IConfig $config)
     {
