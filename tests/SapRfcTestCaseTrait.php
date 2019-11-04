@@ -69,6 +69,7 @@ trait SapRfcTestCaseTrait
             'saprfc_function_interface',
             'saprfc_import',
             'saprfc_table_init',
+            'saprfc_table_append',
             'saprfc_export',
             'saprfc_table_rows',
             'saprfc_table_read'
@@ -79,6 +80,8 @@ trait SapRfcTestCaseTrait
      * Create a new instance of a PHP/SAP connection class.
      * @param array|string|null $config The PHP/SAP configuration. Default: null
      * @return \phpsap\saprfc\SapRfcConnection
+     * @throws \InvalidArgumentException
+     * @throws \phpsap\interfaces\exceptions\IIncompleteConfigException
      */
     public function newConnection($config = null)
     {

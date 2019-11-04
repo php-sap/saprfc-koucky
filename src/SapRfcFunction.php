@@ -20,11 +20,11 @@ use phpsap\classes\Api\Table;
 use phpsap\classes\Api\Value;
 use phpsap\classes\RemoteApi;
 use phpsap\exceptions\FunctionCallException;
+use phpsap\exceptions\SapException;
 use phpsap\exceptions\UnknownFunctionException;
 use phpsap\interfaces\Api\IArray;
 use phpsap\interfaces\Api\IElement;
 use phpsap\interfaces\Api\IValue;
-use phpsap\interfaces\IApi;
 use phpsap\interfaces\IFunction;
 
 /**
@@ -50,16 +50,9 @@ class SapRfcFunction extends AbstractFunction
     protected $function;
 
     /**
-     * SAP remote function interface.
-     * @var mixed
-     */
-    private $functionInterface;
-
-    /**
      * Invoke the prepared function call.
      * @return array
      * @throws FunctionCallException
-     * @throws LogicException
      */
     public function invoke()
     {
@@ -80,9 +73,6 @@ class SapRfcFunction extends AbstractFunction
      */
     public function __destruct()
     {
-        if ($this->functionInterface !== null) {
-            $this->functionInterface = null;
-        }
         if ($this->function !== null) {
             @saprfc_function_free($this->function);
             $this->function = null;
@@ -126,43 +116,108 @@ class SapRfcFunction extends AbstractFunction
 
     /**
      * Export all function call parameters.
-     * @throws LogicException
+     * @return void
      * @throws FunctionCallException
      */
     private function setSaprfcParameters()
     {
-        foreach ($this->getApi()->getInputValues() as $input) {
+        $this->setSapRfcInputValues($this->getApi()->getInputValues());
+        $this->setSapRfcTables($this->getApi()->getTables());
+    }
+
+    /**
+     * Set all input values.
+     * @param array $inputs The array of input parameters to set.
+     * @return void
+     * @throws FunctionCallException
+     */
+    private function setSapRfcInputValues($inputs)
+    {
+        foreach ($inputs as $input) {
             $name = $input->getName();
             $value = $this->getParam($name);
-            if ($value === null && !$input->isOptional()) {
+            if (!$this->setSapRfcInputValue($name, $value, $input->isOptional())) {
                 throw new FunctionCallException(sprintf(
-                    'Missing parameter \'%s\' for function call \'%s\'!',
-                    $name,
-                    $this->getName()
-                ));
-            }
-            $result = @saprfc_import($this->function, $name, $value);
-            if ($result !== true) {
-                throw new LogicException(sprintf(
-                    'Assigning param %s, expected type %s, actual type %s to function %s failed.',
+                    'Function call %s failed: Assigning param %s, expected type %s, actual type %s failed.',
+                    $this->getName(),
                     $name,
                     $input->getType(),
-                    gettype($value),
-                    $this->getName()
+                    gettype($value)
                 ));
             }
         }
+    }
 
-        foreach ($this->getApi()->getTables() as $table) {
-            $result = @saprfc_table_init($this->function, $table->getName());
+    /**
+     * Set a single input parameter value for the function call.
+     * @param string $name The name of the parameter.
+     * @param mixed $value The value of the parameter.
+     * @param bool $isOptional Is the parameter optional (TRUE) or mandatory (FALSE)?
+     * @return bool Has the parameter been set successfully?
+     * @throws FunctionCallException in case the parameter value is null but mandatory.
+     */
+    private function setSapRfcInputValue($name, $value, $isOptional)
+    {
+        if ($value === null && !$isOptional) {
+            throw new FunctionCallException(sprintf(
+                'Missing parameter \'%s\' for function call \'%s\'!',
+                $name,
+                $this->getName()
+            ));
+        }
+        if ($value === null) {
+            return true;
+        }
+        return @saprfc_import($this->function, $name, $value);
+    }
+
+    /**
+     * Initializes the table parameters of the remote function call.
+     * @param array $tables The array of table parameters to initialize.
+     * @return void
+     * @throws FunctionCallException In case the initialization fails.
+     */
+    private function setSapRfcTables($tables)
+    {
+        foreach ($tables as $table) {
+            $name = $table->getName();
+            $result = $this->setSapRfcTable($name, $this->getParam($name));
             if ($result !== true) {
-                throw new LogicException(sprintf(
-                    'Initializing table %s for function %s failed.',
-                    $table->getName(),
+                throw new FunctionCallException(sprintf(
+                    'Initializing table %s for function %s failed!',
+                    $name,
                     $this->getName()
                 ));
             }
         }
+    }
+
+    /**
+     * Initialize a remote function call table and add rows, in case there are rows.
+     * @param string $name The table name to initialize and fill.
+     * @param array $rows The rows to add to the table.
+     * @return bool Init success?
+     * @throws FunctionCallException
+     */
+    private function setSapRfcTable($name, $rows)
+    {
+        if (!@saprfc_table_init($this->function, $name)) {
+            return false;
+        }
+        if (!is_array($rows)) {
+            return true;
+        }
+        foreach ($rows as $number => $row) {
+            if (!@saprfc_table_append($this->function, $name, $row)) {
+                throw new FunctionCallException(sprintf(
+                    'Adding row #%u to table %s for function %s failed!',
+                    $number,
+                    $name,
+                    $this->getName()
+                ));
+            }
+        }
+        return true;
     }
 
     /**
@@ -175,7 +230,7 @@ class SapRfcFunction extends AbstractFunction
         foreach ($this->getApi()->getOutputValues() as $output) {
             $name = $output->getName();
             $value = @saprfc_export($this->function, $name);
-            $result[$name] = $output->cast(trim($value));
+            $result[$name] = $output->cast($value);
             unset($name, $value);
         }
         foreach ($this->getApi()->getTables() as $table) {
@@ -193,9 +248,10 @@ class SapRfcFunction extends AbstractFunction
 
     /**
      * Extract the remote function API and return an API description class.
-     * @return IApi
+     * @return RemoteApi The remote API description class.
      * @throws InvalidArgumentException
-     * @throws LogicException
+     * @throws LogicException In case the given SAP RFC type is missing in the static mapping.
+     * @throws SapException In case of a general error where the remote function API cannot be queried.
      */
     public function extractApi()
     {
@@ -212,25 +268,27 @@ class SapRfcFunction extends AbstractFunction
     }
 
     /**
-     * Get remote function call interface definition.
-     * @return array
+     * Get remote function call API definition.
+     * @return array The array describing the remote function call API.
+     * @throws SapException In case of a general error where the remote function API cannot be queried.
      */
-    private function saprfcFunctionInterface()
+    public function saprfcFunctionInterface()
     {
         $definitions = @saprfc_function_interface($this->function);
         if ($definitions === false) {
-            return [];
+            throw new SapException('Cannot query remote function API!');
         }
         return $definitions;
     }
 
     /**
-     * @param string $name
-     * @param string $direction
-     * @param bool $optional
-     * @param array $def
-     * @return IValue
-     * @throws LogicException
+     * Create either Value, Struct or Table from a given remote function parameter or return value.
+     * @param string $name The name of the parameter or return value.
+     * @param string $direction The direction indicating whether it's a parameter or return value.
+     * @param bool $optional The flag, whether this parameter or return value is required.
+     * @param array $def The parameter or return value definition containing the data type.
+     * @return Value|Struct|Table
+     * @throws LogicException In case a datatype is missing in the mappings array.
      */
     private function createApiValue($name, $direction, $optional, $def)
     {
@@ -244,10 +302,10 @@ class SapRfcFunction extends AbstractFunction
     }
 
     /**
-     * Create members from the def array.
+     * Create either struct or table members from the def array of the remote function API.
      * @param array $members
-     * @return array
-     * @throws LogicException
+     * @return Element[] An array of IElement compatible objects.
+     * @throws LogicException In case a datatype is missing in the mappings array.
      */
     private function createMembers($members)
     {
@@ -260,76 +318,51 @@ class SapRfcFunction extends AbstractFunction
 
     /**
      * Convert SAPRFC abap datatype to PHP-SAP datatype.
-     * @param string $dataType
-     * @return string
-     * @throws LogicException
+     * @param string $type The ABAP data type from the API definition.
+     * @return string The PHP/SAP internal data type.
+     * @throws LogicException In case a datatype is missing in the mappings array.
      */
-    private function abapToType($dataType)
+    private function abapToType($type)
     {
-        switch ($dataType) {
-            case 'B': //1-byte integer (internal)
-                //fall through
-            case 'S': //2-byte integer (internal)
-                //fall through
-            case 'I': //4-byte integer
-                //fall through
-            case 'INT8': //8-byte integer
-                //fall through
-            case 'N': //fixed length numeric text field 1-262143 positions
-                $result = IElement::TYPE_INTEGER;
-                break;
-            case 'P': //packed number 1-16 bytes
-                //fall through
-            case 'DECFLOAT16': //floating point with 16 positions
-                //fall through
-            case 'DECFLOAT34': //floating point with 34 positions
-                //fall through
-            case 'F': //binary floating point with 17 positions
-                $result = IElement::TYPE_FLOAT;
-                break;
-            case 'C': //fixed length text field
-                //fall through
-            case 'STRING': //text string
-                $result = IElement::TYPE_STRING;
-                break;
-            case 'X': //hexadecimal encoded binary data
-                //fall through
-            case 'XSTRING':
-                $result = IElement::TYPE_STRING;
-                break;
-            case 'D': //date field
-                $result = IElement::TYPE_DATE;
-                break;
-            case 'T': //time field
-                $result = IElement::TYPE_TIME;
-                break;
-            default:
-                throw new LogicException(sprintf('Unknown SAP data type \'%s\'!', $dataType));
+        static $mapping = [
+            'b'           => IElement::TYPE_INTEGER,  //1-byte integer (internal)
+            's'           => IElement::TYPE_INTEGER,  //2-byte integer (internal)
+            'I'           => IElement::TYPE_INTEGER,  //4-byte integer
+            'INT8'        => IElement::TYPE_INTEGER,  //8-byte integer
+            'P'           => IElement::TYPE_FLOAT,    //packed number 1-16 bytes
+            'DECFLOAT16'  => IElement::TYPE_FLOAT,    //floating point with 16 positions
+            'DECFLOAT34'  => IElement::TYPE_FLOAT,    //floating point with 34 positions
+            'F'           => IElement::TYPE_FLOAT,    //binary floating point with 17 positions
+            'C'           => IElement::TYPE_STRING,   //fixed length text field
+            'N'           => IElement::TYPE_INTEGER,  //fixed length numeric text field 1-262143 positions
+            'STRING'      => IElement::TYPE_STRING,   //text string
+            'X'           => IElement::TYPE_HEXBIN,   //fixed length hexadecimal encoded binary data
+            'XSTRING'     => IElement::TYPE_HEXBIN,   //fixed length hexadecimal encoded binary data
+            'D'           => IElement::TYPE_DATE,     //date field
+            'T'           => IElement::TYPE_TIME,     //time field
+        ];
+        if (!array_key_exists($type, $mapping)) {
+            throw new LogicException(sprintf('Unknown SAP data type \'%s\'!', $type));
         }
-        return $result;
+        return $mapping[$type];
     }
 
     /**
-     * Convert SAPRFC type to PHP-SAP direction.
-     * @param string $type
-     * @return string
-     * @throws LogicException
+     * Convert SAPRFC type to PHP/SAP direction.
+     * @param string $type The remote function parameter type indicating whether it's an input or a return parameter.
+     * @return string The PHP/SAP internal direction.
+     * @throws LogicException In case the given SAP RFC type is missing in the static mapping.
      */
     private function typeToDirection($type)
     {
-        switch ($type) {
-            case 'IMPORT':
-                $result = IValue::DIRECTION_INPUT;
-                break;
-            case 'EXPORT':
-                $result = IValue::DIRECTION_OUTPUT;
-                break;
-            case 'TABLE':
-                $result = IArray::DIRECTION_TABLE;
-                break;
-            default:
-                throw new LogicException(sprintf('Unknown SAPRFC type \'%s\'!', $type));
+        static $mapping = [
+            'IMPORT' => IValue::DIRECTION_INPUT,   //SAP remote function input parameter
+            'EXPORT' => IValue::DIRECTION_OUTPUT,  //SAP remote function return value or struct
+            'TABLE'  => IArray::DIRECTION_TABLE    //SAP remote function return table
+        ];
+        if (!array_key_exists($type, $mapping)) {
+            throw new LogicException(sprintf('Unknown SAPRFC type \'%s\'!', $type));
         }
-        return $result;
+        return $mapping[$type];
     }
 }

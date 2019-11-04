@@ -126,6 +126,19 @@ function saprfc_table_init($function, $name)
 }
 
 /**
+ * Initialize saprfc table.
+ * @param resource $function The remote function call resource.
+ * @param string $name The parameter name.
+ * @param array $row The table row to add.
+ * @return bool
+ */
+function saprfc_table_append($function, $name, $row)
+{
+    $func = \phpsap\IntegrationTests\SapRfcModuleMocks::singleton()->get(__FUNCTION__);
+    return $func($function, $name, $row);
+}
+
+/**
  * Get function call result.
  * @param resource $function The remote function call resource.
  * @param string $name The result parameter name.
