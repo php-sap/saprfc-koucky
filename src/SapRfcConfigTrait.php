@@ -27,7 +27,7 @@ trait SapRfcConfigTrait
      * Generate the configuration array needed for connecting a remote SAP system
      * using Eduard Kouckys saprfc module.
      * @return array
-     * @throws \phpsap\exceptions\IncompleteConfigException
+     * @throws IncompleteConfigException
      */
     public function generateConfig()
     {

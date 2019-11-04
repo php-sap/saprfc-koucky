@@ -14,6 +14,7 @@ namespace phpsap\saprfc;
 use phpsap\classes\AbstractConnection;
 use phpsap\exceptions\ConnectionFailedException;
 use phpsap\exceptions\FunctionCallException;
+use phpsap\exceptions\UnknownFunctionException;
 
 /**
  * Class phpsap\saprfc\SapRfcConnection
@@ -31,7 +32,8 @@ class SapRfcConnection extends AbstractConnection
      * Send a ping request via an established connection to verify that the
      * connection works.
      * @return boolean success?
-     * @throws \phpsap\exceptions\ConnectionFailedException
+     * @throws ConnectionFailedException
+     * @throws UnknownFunctionException
      */
     public function ping()
     {
@@ -58,8 +60,9 @@ class SapRfcConnection extends AbstractConnection
     /**
      * Prepare a remote function call and return a function instance.
      * @param string $name
-     * @return \phpsap\saprfc\SapRfcFunction
-     * @throws \phpsap\exceptions\ConnectionFailedException
+     * @return SapRfcFunction
+     * @throws ConnectionFailedException
+     * @throws UnknownFunctionException
      */
     protected function createFunctionInstance($name)
     {
@@ -68,7 +71,7 @@ class SapRfcConnection extends AbstractConnection
 
     /**
      * Creates a connection using the underlying PHP module.
-     * @throws \phpsap\exceptions\ConnectionFailedException
+     * @throws ConnectionFailedException
      */
     public function connect()
     {
