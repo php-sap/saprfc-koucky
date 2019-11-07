@@ -312,12 +312,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sap/integration-tests.git",
-                "reference": "6b8e2f69bc644184584a82ecf887b5369218530f"
+                "reference": "68bb63376db160b9be2101f7fa79dce4314c35d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sap/integration-tests/zipball/6b8e2f69bc644184584a82ecf887b5369218530f",
-                "reference": "6b8e2f69bc644184584a82ecf887b5369218530f",
+                "url": "https://api.github.com/repos/php-sap/integration-tests/zipball/68bb63376db160b9be2101f7fa79dce4314c35d0",
+                "reference": "68bb63376db160b9be2101f7fa79dce4314c35d0",
                 "shasum": ""
             },
             "require": {
@@ -348,7 +348,7 @@
             ],
             "description": "PHP/SAP integration tests.",
             "homepage": "https://php-sap.github.io/",
-            "time": "2019-11-04T10:14:16+00:00"
+            "time": "2019-11-07T12:36:41+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
