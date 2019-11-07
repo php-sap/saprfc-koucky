@@ -549,7 +549,7 @@ class SapRfcFunctionTest extends AbstractFunctionTestCase
                 return [
                     'RFCFLOAT' => 70.11,
                     'RFCCHAR1' => 'A',
-                    'RFCINT2' => 5920,
+                    'RFCINT2' => 4095,
                     'RFCINT1' => 163,
                     'RFCCHAR4' => 'QqMh',
                     'RFCINT4' => 416639,
