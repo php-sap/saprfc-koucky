@@ -1,17 +1,9 @@
 <?php
-/**
- * File tests/SapRfcTestCaseTrait.php
- *
- * Implement methods of phpsap\IntegrationTests\AbstractTestCase
- *
- * @package saprfc-koucky
- * @author Gregor J.
- * @license MIT
- */
 
 namespace tests\phpsap\saprfc;
 
-use phpsap\saprfc\SapRfcConfigA;
+use phpsap\classes\Config\ConfigTypeA;
+use phpsap\interfaces\Config\IConfiguration;
 use phpsap\saprfc\SapRfcConnection;
 
 /**
@@ -78,14 +70,16 @@ trait SapRfcTestCaseTrait
 
     /**
      * Create a new instance of a PHP/SAP connection class.
-     * @param array|string|null $config The PHP/SAP configuration. Default: null
-     * @return \phpsap\saprfc\SapRfcConnection
+     * @param IConfiguration|null $config The PHP/SAP configuration. Default: null
+     * @return SapRfcConnection
      * @throws \InvalidArgumentException
-     * @throws \phpsap\interfaces\exceptions\IIncompleteConfigException
      */
-    public function newConnection($config = null)
+    public function newConnection(IConfiguration $config = null)
     {
-        return new SapRfcConnection(new SapRfcConfigA($config));
+        if ($config === null) {
+            return new SapRfcConnection(new ConfigTypeA());
+        }
+        return new SapRfcConnection($config);
     }
 
     /**
