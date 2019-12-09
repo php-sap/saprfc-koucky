@@ -18,7 +18,7 @@ if (extension_loaded('saprfc')) {
 
 /**
  * Close connection resource.
- * @param mixed $connection Connection ressource.
+ * @param mixed $connection Connection resource.
  */
 function saprfc_close(&$connection)
 {
@@ -58,7 +58,7 @@ function saprfc_exception($function)
 /**
  * Open connection.
  * @param array $config
- * @return ressource
+ * @return resource
  */
 function saprfc_open($config)
 {
@@ -68,9 +68,9 @@ function saprfc_open($config)
 
 /**
  * Get function call resource.
- * @param ressource $connection Connection ressource.
+ * @param resource $connection Connection resource.
  * @param string $name Function name.
- * @return ressource
+ * @return resource
  */
 function saprfc_function_discover($connection, $name)
 {
@@ -80,7 +80,7 @@ function saprfc_function_discover($connection, $name)
 
 /**
  * Call SAP remote function with all set parameters.
- * @param ressource $function
+ * @param resource $function
  * @return int
  */
 function saprfc_call_and_receive($function)
