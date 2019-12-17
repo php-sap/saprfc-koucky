@@ -2,26 +2,33 @@
 
 namespace tests\phpsap\saprfc;
 
-use phpsap\classes\Config\ConfigTypeA;
-use phpsap\interfaces\Config\IConfiguration;
-use phpsap\saprfc\SapRfcConnection;
+use phpsap\saprfc\SapRfc;
 
 /**
- * Trait tests\phpsap\saprfc\SapRfcTestCaseTrait
+ * Trait TestCaseTrait
  *
- * Implement methods of phpsap\IntegrationTests\AbstractTestCase
+ * Collect methods common to all test cases extending the integration tests.
  *
  * @package tests\phpsap\saprfc
  * @author Gregor J.
  * @license MIT
  */
-trait SapRfcTestCaseTrait
+trait TestCaseTrait
 {
+    /**
+     * Return the name of the class, used for testing.
+     * @return string
+     */
+    public static function getClassName()
+    {
+        return SapRfc::class;
+    }
+
     /**
      * Get the name of the PHP module.
      * @return string
      */
-    public function getModuleName()
+    public static function getModuleName()
     {
         return 'saprfc';
     }
@@ -30,7 +37,7 @@ trait SapRfcTestCaseTrait
      * Get the path to the PHP/SAP configuration file.
      * @return string
      */
-    public function getSapConfigFile()
+    public static function getSapConfigFile()
     {
         return __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'sap.json';
     }
@@ -39,7 +46,7 @@ trait SapRfcTestCaseTrait
      * Get the path to the filename containing the SAP RFC module mockups.
      * @return string
      */
-    public function getModuleTemplateFile()
+    public static function getModuleTemplateFile()
     {
         return __DIR__ . DIRECTORY_SEPARATOR . 'helper' . DIRECTORY_SEPARATOR . 'saprfc.php';
     }
@@ -48,7 +55,7 @@ trait SapRfcTestCaseTrait
      * Get an array of valid SAP RFC module function or class method names.
      * @return array
      */
-    public function getValidModuleFunctions()
+    public static function getValidModuleFunctions()
     {
         return [
             'saprfc_close',
@@ -66,30 +73,5 @@ trait SapRfcTestCaseTrait
             'saprfc_table_rows',
             'saprfc_table_read'
         ];
-    }
-
-    /**
-     * Create a new instance of a PHP/SAP connection class.
-     * @param IConfiguration|null $config The PHP/SAP configuration. Default: null
-     * @return SapRfcConnection
-     * @throws \InvalidArgumentException
-     */
-    public function newConnection(IConfiguration $config = null)
-    {
-        if ($config === null) {
-            return new SapRfcConnection(new ConfigTypeA());
-        }
-        return new SapRfcConnection($config);
-    }
-
-    /**
-     * Clean up trace files after tests.
-     */
-    public function __destruct()
-    {
-        $traceFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'dev_rfc.trc';
-        if (file_exists($traceFile)) {
-            unlink($traceFile);
-        }
     }
 }

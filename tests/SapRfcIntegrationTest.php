@@ -1,29 +1,25 @@
 <?php
-/**
- * File tests/SapRfcFunctionTest.php
- *
- * Test function class.
- *
- * @package saprfc-koucky
- * @author Gregor J.
- * @license MIT
- */
 
 namespace tests\phpsap\saprfc;
 
-use phpsap\IntegrationTests\AbstractFunctionTestCase;
+use phpsap\IntegrationTests\AbstractConnectionTestCase;
+use phpsap\IntegrationTests\AbstractSapRfcTestCase;
+use RuntimeException;
 
 /**
- * Class tests\phpsap\saprfc\SapRfcFunctionTest
+ * Class tests\phpsap\saprfc\SapRfcIntegrationTest
  *
- * Test function class.
+ * Implement methods of the integration tests to mock SAP remote function
+ * calls without an actual SAP system for testing.
  *
  * @package tests\phpsap\saprfc
  * @author Gregor J.
  * @license MIT
  */
-class SapRfcFunctionTest extends AbstractFunctionTestCase
+class SapRfcIntegrationTest extends AbstractSapRfcTestCase
 {
+    use TestCaseTrait;
+
     public static $rfcWalkThruTestApi = [
         [
             'name' => 'TEST_OUT',
@@ -395,40 +391,49 @@ class SapRfcFunctionTest extends AbstractFunctionTestCase
     ];
 
     /**
-     * Implements methods of phpsap\IntegrationTests\AbstractTestCase
+     * @inheritDoc
      */
-    use SapRfcTestCaseTrait;
+    protected function mockConnectionFailed()
+    {
+        static::mock('saprfc_open', static function ($config) {
+            unset($config);
+            return false;
+        });
+        static::mock('saprfc_error', static function () {
+            return 'my error message';
+        });
+    }
 
     /**
-     * Mock the SAP RFC module for a successful SAP remote function call.
+     * @inheritDoc
      */
-    protected function mockSuccessfulFunctionCall()
+    protected function mockSuccessfulRfcPing()
     {
-        static::mock('saprfc_open', function ($config) {
+        static::mock('saprfc_open', static function ($config) {
             if (is_array($config)) {
                 return 'SAPRFC CONNECTION';
             }
             return false;
         });
-        static::mock('saprfc_close', function (&$connection) {
+        static::mock('saprfc_close', static function (&$connection) {
             $connection = null;
         });
-        static::mock('saprfc_function_discover', function ($connection, $name) {
+        static::mock('saprfc_function_discover', static function ($connection, $name) {
             if ($connection === 'SAPRFC CONNECTION' && $name === 'RFC_PING') {
                 return 'SAPRFC PING';
             }
             return false;
         });
-        static::mock('saprfc_call_and_receive', function ($function) {
+        static::mock('saprfc_call_and_receive', static function ($function) {
             if ($function === 'SAPRFC PING') {
                 return 0;
             }
             return 1;
         });
-        static::mock('saprfc_function_free', function (&$function) {
+        static::mock('saprfc_function_free', static function (&$function) {
             $function = null;
         });
-        static::mock('saprfc_function_interface', function ($function) {
+        static::mock('saprfc_function_interface', static function ($function) {
             if ($function === 'SAPRFC PING') {
                 return [];
             }
@@ -437,91 +442,90 @@ class SapRfcFunctionTest extends AbstractFunctionTestCase
     }
 
     /**
-     * Mock the SAP RFC module for an unknown function call exception.
+     * @inheritDoc
      */
     protected function mockUnknownFunctionException()
     {
-        static::mock('saprfc_open', function ($config) {
+        static::mock('saprfc_open', static function ($config) {
             if (is_array($config)) {
                 return 'SAPRFC CONNECTION';
             }
             return false;
         });
-        static::mock('saprfc_close', function (&$connection) {
+        static::mock('saprfc_close', static function (&$connection) {
             $connection = null;
         });
-        static::mock('saprfc_function_discover', function ($connection, $name) {
+        static::mock('saprfc_function_discover', static function ($connection, $name) {
             if ($connection === 'SAPRFC CONNECTION' && $name === 'RFC_PINGG') {
                 return false;
             }
             return $name;
         });
-        static::mock('saprfc_error', function () {
+        static::mock('saprfc_error', static function () {
             return 'function RFC_PINGG not found';
         });
-        static::mock('saprfc_function_free', function (&$function) {
+        static::mock('saprfc_function_free', static function (&$function) {
             $function = null;
         });
     }
 
     /**
-     * Mock the SAP RFC module for a successful SAP remote function call with
-     * parameters and results.
+     * @inheritDoc
      */
     protected function mockRemoteFunctionCallWithParametersAndResults()
     {
-        static::mock('saprfc_open', function ($config) {
+        static::mock('saprfc_open', static function ($config) {
             if (is_array($config)) {
                 return 'SAPRFC CONNECTION';
             }
             return false;
         });
-        static::mock('saprfc_close', function (&$connection) {
+        static::mock('saprfc_close', static function (&$connection) {
             $connection = null;
         });
-        static::mock('saprfc_function_discover', function ($connection, $name) {
+        static::mock('saprfc_function_discover', static function ($connection, $name) {
             if ($connection === 'SAPRFC CONNECTION' && $name === 'RFC_WALK_THRU_TEST') {
                 return 'SAPRFC RFC_WALK_THRU_TEST';
             }
             return false;
         });
-        static::mock('saprfc_function_interface', function ($function) {
+        static::mock('saprfc_function_interface', static function ($function) {
             if ($function === 'SAPRFC RFC_WALK_THRU_TEST') {
                 return static::$rfcWalkThruTestApi;
             }
             return false;
         });
-        static::mock('saprfc_call_and_receive', function ($function) {
+        static::mock('saprfc_call_and_receive', static function ($function) {
             if ($function === 'SAPRFC RFC_WALK_THRU_TEST') {
                 return 0;
             }
             return 1;
         });
-        static::mock('saprfc_import', function ($function, $name, $param) {
+        static::mock('saprfc_import', static function ($function, $name, $param) {
             return ($function === 'SAPRFC RFC_WALK_THRU_TEST'
                 && $name === 'TEST_IN'
                 && is_array($param)
             );
         });
-        static::mock('saprfc_table_init', function ($function, $name) {
+        static::mock('saprfc_table_init', static function ($function, $name) {
             return ($function === 'SAPRFC RFC_WALK_THRU_TEST'
                 && in_array($name, ['LOG', 'DESTINATIONS'])
             );
         });
-        static::mock('saprfc_table_append', function ($function, $name, $param) {
+        static::mock('saprfc_table_append', static function ($function, $name, $param) {
             return ($function === 'SAPRFC RFC_WALK_THRU_TEST'
                 && $name === 'DESTINATIONS'
                 && is_array($param)
             );
         });
-        static::mock('saprfc_table_append', function ($function, $name, $param) {
+        static::mock('saprfc_table_append', static function ($function, $name, $param) {
             return ($function === 'SAPRFC RFC_WALK_THRU_TEST'
                 && $name === 'DESTINATIONS'
                 && is_array($param)
                 && $param === ['RFCDEST' => 'AOP3']
             );
         });
-        static::mock('saprfc_table_rows', function ($function, $name) {
+        static::mock('saprfc_table_rows', static function ($function, $name) {
             if ($function !== 'SAPRFC RFC_WALK_THRU_TEST') {
                 return false;
             }
@@ -534,7 +538,7 @@ class SapRfcFunctionTest extends AbstractFunctionTestCase
                     return false;
             }
         });
-        static::mock('saprfc_table_read', function ($function, $name, $param) {
+        static::mock('saprfc_table_read', static function ($function, $name, $param) {
             if ($function === 'SAPRFC RFC_WALK_THRU_TEST' && $name === 'LOG' && $param === 1) {
                 return [
                     'RFCDEST' => 'AOP3',
@@ -544,7 +548,7 @@ class SapRfcFunctionTest extends AbstractFunctionTestCase
             }
             return false;
         });
-        static::mock('saprfc_export', function ($function, $name) {
+        static::mock('saprfc_export', static function ($function, $name) {
             if ($function === 'SAPRFC RFC_WALK_THRU_TEST' && $name === 'TEST_OUT') {
                 return [
                     'RFCFLOAT' => 70.11,
@@ -563,50 +567,61 @@ class SapRfcFunctionTest extends AbstractFunctionTestCase
             }
             return false;
         });
-        static::mock('saprfc_function_free', function (&$function) {
+        static::mock('saprfc_function_free', static function (&$function) {
             $function = null;
         });
     }
 
     /**
-     * Mock the SAP RFC module for a failed SAP remote function call with parameters.
+     * @inheritDoc
      */
     protected function mockFailedRemoteFunctionCallWithParameters()
     {
-        static::mock('saprfc_open', function ($config) {
+        static::mock('saprfc_open', static function ($config) {
             if (is_array($config)) {
                 return 'SAPRFC CONNECTION';
             }
             return false;
         });
-        static::mock('saprfc_close', function (&$connection) {
+        static::mock('saprfc_close', static function (&$connection) {
             $connection = null;
         });
-        static::mock('saprfc_function_discover', function ($connection, $name) {
+        static::mock('saprfc_function_discover', static function ($connection, $name) {
             if ($connection === 'SAPRFC CONNECTION' && $name === 'RFC_READ_TABLE') {
                 return 'SAPRFC RFC_READ_TABLE';
             }
             return false;
         });
-        static::mock('saprfc_function_interface', function ($function) {
+        static::mock('saprfc_function_interface', static function ($function) {
             if ($function === 'SAPRFC RFC_READ_TABLE') {
                 return static::$rfcReadTableApi;
             }
             return false;
         });
-        static::mock('saprfc_call_and_receive', function ($function) {
+        static::mock('saprfc_call_and_receive', static function ($function) {
             if ($function === 'SAPRFC RFC_READ_TABLE') {
                 return 1;
             }
-            throw new \RuntimeException('Unexpected function instance.');
+            throw new RuntimeException('Unexpected function instance.');
         });
-        static::mock('saprfc_import', function ($function, $name, $param) {
+        static::mock('saprfc_import', static function ($function, $name, $param) {
             return ($function === 'SAPRFC RFC_READ_TABLE'
                 && $name === 'QUERY_TABLE'
-                && $param === ''
+                && $param === '&'
             );
         });
-        static::mock('saprfc_function_free', function (&$function) {
+        static::mock('saprfc_table_init', static function ($function, $name) {
+            return ($function === 'SAPRFC RFC_READ_TABLE'
+                && in_array($name, ['DATA', 'FIELDS', 'OPTIONS'])
+            );
+        });
+        static::mock('saprfc_exception', static function ($function) {
+            if ($function === 'SAPRFC RFC_READ_TABLE') {
+                return 'My exception message.';
+            }
+            throw new RuntimeException('Expected RFC_READ_TABLE function!');
+        });
+        static::mock('saprfc_function_free', static function (&$function) {
             $function = null;
         });
     }

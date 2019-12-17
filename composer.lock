@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sap/common.git",
-                "reference": "6fd26e6fe1ffcfadd7b068125ead9ca3be02cbcf"
+                "reference": "8f02d67bc3d7cd65b78f92d1288faac751601e08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sap/common/zipball/6fd26e6fe1ffcfadd7b068125ead9ca3be02cbcf",
-                "reference": "6fd26e6fe1ffcfadd7b068125ead9ca3be02cbcf",
+                "url": "https://api.github.com/repos/php-sap/common/zipball/8f02d67bc3d7cd65b78f92d1288faac751601e08",
+                "reference": "8f02d67bc3d7cd65b78f92d1288faac751601e08",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
                 "PHPSAP",
                 "php-sap"
             ],
-            "time": "2019-11-26T12:24:25+00:00"
+            "time": "2019-12-17T12:29:11+00:00"
         },
         {
             "name": "php-sap/datetime",
@@ -112,12 +112,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sap/interfaces.git",
-                "reference": "16331f9d2f067d69def09a6893eb29af0e60e17b"
+                "reference": "d04c5135cc73c4ed239d232483c444a3ea430502"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sap/interfaces/zipball/16331f9d2f067d69def09a6893eb29af0e60e17b",
-                "reference": "16331f9d2f067d69def09a6893eb29af0e60e17b",
+                "url": "https://api.github.com/repos/php-sap/interfaces/zipball/d04c5135cc73c4ed239d232483c444a3ea430502",
+                "reference": "d04c5135cc73c4ed239d232483c444a3ea430502",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +151,7 @@
                 "interfaces",
                 "php-sap"
             ],
-            "time": "2019-11-13T17:19:53+00:00"
+            "time": "2019-12-17T12:22:51+00:00"
         },
         {
             "name": "psr/container",
@@ -312,12 +312,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-sap/integration-tests.git",
-                "reference": "2bfbc7d3e3ae47636311f8bfa381bc61869be150"
+                "reference": "ab5afd0ed7d1d6465a4a974dd0a466ca3bc822c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-sap/integration-tests/zipball/2bfbc7d3e3ae47636311f8bfa381bc61869be150",
-                "reference": "2bfbc7d3e3ae47636311f8bfa381bc61869be150",
+                "url": "https://api.github.com/repos/php-sap/integration-tests/zipball/ab5afd0ed7d1d6465a4a974dd0a466ca3bc822c6",
+                "reference": "ab5afd0ed7d1d6465a4a974dd0a466ca3bc822c6",
                 "shasum": ""
             },
             "require": {
@@ -348,7 +348,7 @@
             ],
             "description": "PHP/SAP integration tests.",
             "homepage": "https://php-sap.github.io/",
-            "time": "2019-11-28T13:16:19+00:00"
+            "time": "2019-12-16T16:29:15+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -1310,7 +1310,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.13.0",
+            "version": "v1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -1368,7 +1368,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.35",
+            "version": "v3.4.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
