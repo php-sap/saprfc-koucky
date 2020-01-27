@@ -98,7 +98,11 @@ class SapRfc extends AbstractFunction
             try {
                 $moduleConfig = $this->getModuleConfig($config);
             } catch (IIncompleteConfigException $exception) {
-                throw new IncompleteConfigException($exception->getMessage());
+                throw new IncompleteConfigException(
+                    $exception->getMessage(),
+                    $exception->getCode(),
+                    $exception
+                );
             }
             /**
              * Create a new connection resource.
