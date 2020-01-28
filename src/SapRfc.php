@@ -266,7 +266,8 @@ class SapRfc extends AbstractFunction
             /**
              * Fill the prepared table in case there are values in the parameters.
              */
-            if (array_key_exists($key, $params)
+            if (
+                array_key_exists($key, $params)
                 && is_array($params[$key])
                 && count($params[$key]) > 0
             ) {
