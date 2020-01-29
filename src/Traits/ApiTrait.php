@@ -1,6 +1,6 @@
 <?php
 
-namespace phpsap\saprfc;
+namespace phpsap\saprfc\Traits;
 
 use phpsap\classes\Api\Element;
 use phpsap\classes\Api\Struct;

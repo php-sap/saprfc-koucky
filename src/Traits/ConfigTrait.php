@@ -1,6 +1,6 @@
 <?php
 
-namespace phpsap\saprfc;
+namespace phpsap\saprfc\Traits;
 
 use phpsap\interfaces\Config\IConfigCommon;
 use phpsap\interfaces\Config\IConfigTypeA;

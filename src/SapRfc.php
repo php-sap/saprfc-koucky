@@ -11,6 +11,8 @@ use phpsap\exceptions\IncompleteConfigException;
 use phpsap\exceptions\SapLogicException;
 use phpsap\exceptions\UnknownFunctionException;
 use phpsap\interfaces\exceptions\IIncompleteConfigException;
+use phpsap\saprfc\Traits\ApiTrait;
+use phpsap\saprfc\Traits\ConfigTrait;
 
 /**
  * Class phpsap\saprfc\SapRfc
