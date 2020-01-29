@@ -74,4 +74,16 @@ trait TestCaseTrait
             'saprfc_table_read'
         ];
     }
+
+    /**
+     * Remove sapnwrfc trace file.
+     */
+    public function tearDown()
+    {
+        $traceFile = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'dev_rfc.trc';
+        if (file_exists($traceFile)) {
+            unlink($traceFile);
+        }
+        parent::tearDown();
+    }
 }
