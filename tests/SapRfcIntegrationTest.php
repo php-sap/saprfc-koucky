@@ -20,374 +20,444 @@ class SapRfcIntegrationTest extends AbstractSapRfcTestCase
 {
     use TestCaseTrait;
 
+    /**
+     * @var array The raw API of RFC_WALK_THRU_TEST as seen by the module.
+     */
     public static $rfcWalkThruTestApi = [
-        [
-            'name' => 'TEST_OUT',
-            'type' => 'EXPORT',
-            'optional' => 0,
-            'def' => [
-                [
-                    'name' => 'RFCFLOAT',
-                    'abap' => 'F',
-                    'len' => 8,
-                    'dec' => 0,
-                    'offset' => 0
-                ],
-                [
-                    'name' => 'RFCCHAR1',
-                    'abap' => 'C',
-                    'len' => 1,
-                    'dec' => 0,
-                    'offset' => 8
-                ],
-                [
-                    'name' => 'RFCINT2',
-                    'abap' => 's',
-                    'len' => 2,
-                    'dec' => 0,
-                    'offset' => 10
-                ],
-                [
-                    'name' => 'RFCINT1',
-                    'abap' => 'b',
-                    'len' => 1,
-                    'dec' => 0,
-                    'offset' => 12
-                ],
-                [
-                    'name' => 'RFCCHAR4',
-                    'abap' => 'C',
-                    'len' => 4,
-                    'dec' => 0,
-                    'offset' => 13
-                ],
-                [
-                    'name' => 'RFCINT4',
-                    'abap' => 'I',
-                    'len' => 4,
-                    'dec' => 0,
-                    'offset' => 20
-                ],
-                [
-                    'name' => 'RFCHEX3',
-                    'abap' => 'X',
-                    'len' => 3,
-                    'dec' => 0,
-                    'offset' => 24
-                ],
-                [
-                    'name' => 'RFCCHAR2',
-                    'abap' => 'C',
-                    'len' => 2,
-                    'dec' => 0,
-                    'offset' => 27
-                ],
-                [
-                    'name' => 'RFCTIME',
-                    'abap' => 'T',
-                    'len' => 6,
-                    'dec' => 0,
-                    'offset' => 29
-                ],
-                [
-                    'name' => 'RFCDATE',
-                    'abap' => 'D',
-                    'len' => 8,
-                    'dec' => 0,
-                    'offset' => 35
-                ],
-                [
-                    'name' => 'RFCDATA1',
-                    'abap' => 'C',
-                    'len' => 50,
-                    'dec' => 0,
-                    'offset' => 43
-                ],
-                [
-                    'name' => 'RFCDATA2',
-                    'abap' => 'C',
-                    'len' => 50,
-                    'dec' => 0,
-                    'offset' => 93
-                ]
-            ]
-        ],
-        [
-            'name' => 'TEST_IN',
-            'type' => 'IMPORT',
-            'optional' => 0,
-            'def' => [
-                [
-                    'name' => 'RFCFLOAT',
-                    'abap' => 'F',
-                    'len' => 8,
-                    'dec' => 0,
-                    'offset' => 0
-                ],
-                [
-                    'name' => 'RFCCHAR1',
-                    'abap' => 'C',
-                    'len' => 1,
-                    'dec' => 0,
-                    'offset' => 8
-                ],
-                [
-                    'name' => 'RFCINT2',
-                    'abap' => 's',
-                    'len' => 2,
-                    'dec' => 0,
-                    'offset' => 10
-                ],
-                [
-                    'name' => 'RFCINT1',
-                    'abap' => 'b',
-                    'len' => 1,
-                    'dec' => 0,
-                    'offset' => 12
-                ],
-                [
-                    'name' => 'RFCCHAR4',
-                    'abap' => 'C',
-                    'len' => 4,
-                    'dec' => 0,
-                    'offset' => 13
-                ],
-                [
-                    'name' => 'RFCINT4',
-                    'abap' => 'I',
-                    'len' => 4,
-                    'dec' => 0,
-                    'offset' => 20
-                ],
-                [
-                    'name' => 'RFCHEX3',
-                    'abap' => 'X',
-                    'len' => 3,
-                    'dec' => 0,
-                    'offset' => 24
-                ],
-                [
-                    'name' => 'RFCCHAR2',
-                    'abap' => 'C',
-                    'len' => 2,
-                    'dec' => 0,
-                    'offset' => 27
-                ],
-                [
-                    'name' => 'RFCTIME',
-                    'abap' => 'T',
-                    'len' => 6,
-                    'dec' => 0,
-                    'offset' => 29
-                ],
-                [
-                    'name' => 'RFCDATE',
-                    'abap' => 'D',
-                    'len' => 8,
-                    'dec' => 0,
-                    'offset' => 35
-                ],
-                [
-                    'name' => 'RFCDATA1',
-                    'abap' => 'C',
-                    'len' => 50,
-                    'dec' => 0,
-                    'offset' => 43
-                ],
-                [
-                    'name' => 'RFCDATA2',
-                    'abap' => 'C',
-                    'len' => 50,
-                    'dec' => 0,
-                    'offset' => 93
-                ]
-            ]
-        ],
-        [
-            'name' => 'DESTINATIONS',
-            'type' => 'TABLE',
-            'optional' => 0,
-            'def' => [
-                [
-                    'name' => 'RFCDEST',
-                    'abap' => 'C',
-                    'len' => 32,
-                    'dec' => 0,
-                    'offset' => 0
-                ]
-            ]
-        ],
-        [
-            'name' => 'LOG',
-            'type' => 'TABLE',
-            'optional' => 0,
-            'def' => [
-                [
-                    'name' => 'RFCDEST',
-                    'abap' => 'C',
-                    'len' => 32,
-                    'dec' => 0,
-                    'offset' => 0
-                ],
-                [
-                    'name' => 'RFCWHOAMI',
-                    'abap' => 'C',
-                    'len' => 32,
-                    'dec' => 0,
-                    'offset' => 32
-                ],
-                [
-                    'name' => 'RFCLOG',
-                    'abap' => 'C',
-                    'len' => 70,
-                    'dec' => 0,
-                    'offset' => 64
-                ]
-            ]
-        ]
+        0 =>
+            [
+                'name' => 'TEST_OUT',
+                'type' => 'EXPORT',
+                'optional' => 0,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => 'RFCFLOAT',
+                                'abap' => 'F',
+                                'len' => 8,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                        1 =>
+                            [
+                                'name' => 'RFCCHAR1',
+                                'abap' => 'C',
+                                'len' => 1,
+                                'dec' => 0,
+                                'offset' => 8,
+                            ],
+                        2 =>
+                            [
+                                'name' => 'RFCINT2',
+                                'abap' => 's',
+                                'len' => 2,
+                                'dec' => 0,
+                                'offset' => 10,
+                            ],
+                        3 =>
+                            [
+                                'name' => 'RFCINT1',
+                                'abap' => 'b',
+                                'len' => 1,
+                                'dec' => 0,
+                                'offset' => 12,
+                            ],
+                        4 =>
+                            [
+                                'name' => 'RFCCHAR4',
+                                'abap' => 'C',
+                                'len' => 4,
+                                'dec' => 0,
+                                'offset' => 13,
+                            ],
+                        5 =>
+                            [
+                                'name' => 'RFCINT4',
+                                'abap' => 'I',
+                                'len' => 4,
+                                'dec' => 0,
+                                'offset' => 20,
+                            ],
+                        6 =>
+                            [
+                                'name' => 'RFCHEX3',
+                                'abap' => 'X',
+                                'len' => 3,
+                                'dec' => 0,
+                                'offset' => 24,
+                            ],
+                        7 =>
+                            [
+                                'name' => 'RFCCHAR2',
+                                'abap' => 'C',
+                                'len' => 2,
+                                'dec' => 0,
+                                'offset' => 27,
+                            ],
+                        8 =>
+                            [
+                                'name' => 'RFCTIME',
+                                'abap' => 'T',
+                                'len' => 6,
+                                'dec' => 0,
+                                'offset' => 29,
+                            ],
+                        9 =>
+                            [
+                                'name' => 'RFCDATE',
+                                'abap' => 'D',
+                                'len' => 8,
+                                'dec' => 0,
+                                'offset' => 35,
+                            ],
+                        10 =>
+                            [
+                                'name' => 'RFCDATA1',
+                                'abap' => 'C',
+                                'len' => 50,
+                                'dec' => 0,
+                                'offset' => 43,
+                            ],
+                        11 =>
+                            [
+                                'name' => 'RFCDATA2',
+                                'abap' => 'C',
+                                'len' => 50,
+                                'dec' => 0,
+                                'offset' => 93,
+                            ],
+                    ],
+            ],
+        1 =>
+            [
+                'name' => 'TEST_IN',
+                'type' => 'IMPORT',
+                'optional' => 0,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => 'RFCFLOAT',
+                                'abap' => 'F',
+                                'len' => 8,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                        1 =>
+                            [
+                                'name' => 'RFCCHAR1',
+                                'abap' => 'C',
+                                'len' => 1,
+                                'dec' => 0,
+                                'offset' => 8,
+                            ],
+                        2 =>
+                            [
+                                'name' => 'RFCINT2',
+                                'abap' => 's',
+                                'len' => 2,
+                                'dec' => 0,
+                                'offset' => 10,
+                            ],
+                        3 =>
+                            [
+                                'name' => 'RFCINT1',
+                                'abap' => 'b',
+                                'len' => 1,
+                                'dec' => 0,
+                                'offset' => 12,
+                            ],
+                        4 =>
+                            [
+                                'name' => 'RFCCHAR4',
+                                'abap' => 'C',
+                                'len' => 4,
+                                'dec' => 0,
+                                'offset' => 13,
+                            ],
+                        5 =>
+                            [
+                                'name' => 'RFCINT4',
+                                'abap' => 'I',
+                                'len' => 4,
+                                'dec' => 0,
+                                'offset' => 20,
+                            ],
+                        6 =>
+                            [
+                                'name' => 'RFCHEX3',
+                                'abap' => 'X',
+                                'len' => 3,
+                                'dec' => 0,
+                                'offset' => 24,
+                            ],
+                        7 =>
+                            [
+                                'name' => 'RFCCHAR2',
+                                'abap' => 'C',
+                                'len' => 2,
+                                'dec' => 0,
+                                'offset' => 27,
+                            ],
+                        8 =>
+                            [
+                                'name' => 'RFCTIME',
+                                'abap' => 'T',
+                                'len' => 6,
+                                'dec' => 0,
+                                'offset' => 29,
+                            ],
+                        9 =>
+                            [
+                                'name' => 'RFCDATE',
+                                'abap' => 'D',
+                                'len' => 8,
+                                'dec' => 0,
+                                'offset' => 35,
+                            ],
+                        10 =>
+                            [
+                                'name' => 'RFCDATA1',
+                                'abap' => 'C',
+                                'len' => 50,
+                                'dec' => 0,
+                                'offset' => 43,
+                            ],
+                        11 =>
+                            [
+                                'name' => 'RFCDATA2',
+                                'abap' => 'C',
+                                'len' => 50,
+                                'dec' => 0,
+                                'offset' => 93,
+                            ],
+                    ],
+            ],
+        2 =>
+            [
+                'name' => 'DESTINATIONS',
+                'type' => 'TABLE',
+                'optional' => 0,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => 'RFCDEST',
+                                'abap' => 'C',
+                                'len' => 32,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                    ],
+            ],
+        3 =>
+            [
+                'name' => 'LOG',
+                'type' => 'TABLE',
+                'optional' => 0,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => 'RFCDEST',
+                                'abap' => 'C',
+                                'len' => 32,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                        1 =>
+                            [
+                                'name' => 'RFCWHOAMI',
+                                'abap' => 'C',
+                                'len' => 32,
+                                'dec' => 0,
+                                'offset' => 32,
+                            ],
+                        2 =>
+                            [
+                                'name' => 'RFCLOG',
+                                'abap' => 'C',
+                                'len' => 70,
+                                'dec' => 0,
+                                'offset' => 64,
+                            ],
+                    ],
+            ],
     ];
 
+    /**
+     * @var array The raw API of RFC_READ_TABLE as seen by the module.
+     */
     public static $rfcReadTableApi = [
-        [
-            'name' => 'DELIMITER',
-            'type' => 'IMPORT',
-            'optional' => 1,
-            'def' => [
-                [
-                    'name' => '',
-                    'abap' => 'C',
-                    'len' => 1,
-                    'dec' => 0,
-                    'offset' => 0,
-                ],
+        0 =>
+            [
+                'name' => 'DELIMITER',
+                'type' => 'IMPORT',
+                'optional' => 1,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => '',
+                                'abap' => 'C',
+                                'len' => 1,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                    ],
             ],
-        ],
-        [
-            'name' => 'NO_DATA',
-            'type' => 'IMPORT',
-            'optional' => 1,
-            'def' => [
-                [
-                    'name' => '',
-                    'abap' => 'C',
-                    'len' => 1,
-                    'dec' => 0,
-                    'offset' => 0,
-                ],
+        1 =>
+            [
+                'name' => 'NO_DATA',
+                'type' => 'IMPORT',
+                'optional' => 1,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => '',
+                                'abap' => 'C',
+                                'len' => 1,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                    ],
             ],
-        ],
-        [
-            'name' => 'QUERY_TABLE',
-            'type' => 'IMPORT',
-            'optional' => 0,
-            'def' => [
-                [
-                    'name' => '',
-                    'abap' => 'C',
-                    'len' => 30,
-                    'dec' => 0,
-                    'offset' => 0,
-                ],
+        2 =>
+            [
+                'name' => 'QUERY_TABLE',
+                'type' => 'IMPORT',
+                'optional' => 0,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => '',
+                                'abap' => 'C',
+                                'len' => 30,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                    ],
             ],
-        ],
-        [
-            'name' => 'ROWCOUNT',
-            'type' => 'IMPORT',
-            'optional' => 1,
-            'def' => [
-                [
-                    'name' => '',
-                    'abap' => 'I',
-                    'len' => 4,
-                    'dec' => 0,
-                    'offset' => 0,
-                ],
+        3 =>
+            [
+                'name' => 'ROWCOUNT',
+                'type' => 'IMPORT',
+                'optional' => 1,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => '',
+                                'abap' => 'I',
+                                'len' => 4,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                    ],
             ],
-        ],
-        [
-            'name' => 'ROWSKIPS',
-            'type' => 'IMPORT',
-            'optional' => 1,
-            'def' => [
-                [
-                    'name' => '',
-                    'abap' => 'I',
-                    'len' => 4,
-                    'dec' => 0,
-                    'offset' => 0,
-                ],
+        4 =>
+            [
+                'name' => 'ROWSKIPS',
+                'type' => 'IMPORT',
+                'optional' => 1,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => '',
+                                'abap' => 'I',
+                                'len' => 4,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                    ],
             ],
-        ],
-        [
-            'name' => 'DATA',
-            'type' => 'TABLE',
-            'optional' => 0,
-            'def' => [
-                [
-                    'name' => 'WA',
-                    'abap' => 'C',
-                    'len' => 512,
-                    'dec' => 0,
-                    'offset' => 0,
-                ],
+        5 =>
+            [
+                'name' => 'DATA',
+                'type' => 'TABLE',
+                'optional' => 0,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => 'WA',
+                                'abap' => 'C',
+                                'len' => 512,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                    ],
             ],
-        ],
-        [
-            'name' => 'FIELDS',
-            'type' => 'TABLE',
-            'optional' => 0,
-            'def' => [
-                [
-                    'name' => 'FIELDNAME',
-                    'abap' => 'C',
-                    'len' => 30,
-                    'dec' => 0,
-                    'offset' => 0,
-                ],
-                [
-                    'name' => 'OFFSET',
-                    'abap' => 'N',
-                    'len' => 6,
-                    'dec' => 0,
-                    'offset' => 30,
-                ],
-                [
-                    'name' => 'LENGTH',
-                    'abap' => 'N',
-                    'len' => 6,
-                    'dec' => 0,
-                    'offset' => 36,
-                ],
-                [
-                    'name' => 'TYPE',
-                    'abap' => 'C',
-                    'len' => 1,
-                    'dec' => 0,
-                    'offset' => 42,
-                ],
-                [
-                    'name' => 'FIELDTEXT',
-                    'abap' => 'C',
-                    'len' => 60,
-                    'dec' => 0,
-                    'offset' => 43,
-                ],
+        6 =>
+            [
+                'name' => 'FIELDS',
+                'type' => 'TABLE',
+                'optional' => 0,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => 'FIELDNAME',
+                                'abap' => 'C',
+                                'len' => 30,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                        1 =>
+                            [
+                                'name' => 'OFFSET',
+                                'abap' => 'N',
+                                'len' => 6,
+                                'dec' => 0,
+                                'offset' => 30,
+                            ],
+                        2 =>
+                            [
+                                'name' => 'LENGTH',
+                                'abap' => 'N',
+                                'len' => 6,
+                                'dec' => 0,
+                                'offset' => 36,
+                            ],
+                        3 =>
+                            [
+                                'name' => 'TYPE',
+                                'abap' => 'C',
+                                'len' => 1,
+                                'dec' => 0,
+                                'offset' => 42,
+                            ],
+                        4 =>
+                            [
+                                'name' => 'FIELDTEXT',
+                                'abap' => 'C',
+                                'len' => 60,
+                                'dec' => 0,
+                                'offset' => 43,
+                            ],
+                    ],
             ],
-        ],
-        [
-            'name' => 'OPTIONS',
-            'type' => 'TABLE',
-            'optional' => 0,
-            'def' => [
-                [
-                    'name' => 'TEXT',
-                    'abap' => 'C',
-                    'len' => 72,
-                    'dec' => 0,
-                    'offset' => 0,
-                ],
+        7 =>
+            [
+                'name' => 'OPTIONS',
+                'type' => 'TABLE',
+                'optional' => 0,
+                'def' =>
+                    [
+                        0 =>
+                            [
+                                'name' => 'TEXT',
+                                'abap' => 'C',
+                                'len' => 72,
+                                'dec' => 0,
+                                'offset' => 0,
+                            ],
+                    ],
             ],
-        ],
     ];
 
     /**
