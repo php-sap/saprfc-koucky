@@ -22,7 +22,7 @@
     "koucky"
   ],
   "provide": {
-    "php-sap/interfaces": "~1.0.0"
+    "php-sap/interfaces": "^2.0"
   },
   "conflict": {
     "php-sap/saprfc-harding": "*",
@@ -30,15 +30,15 @@
   },
   "minimum-stability": "stable",
   "require": {
-    "php": "~5.5.0",
+    "php": "^5.5",
     "ext-saprfc": "*",
-    "php-sap/interfaces": "^1.0",
-    "php-sap/common": "^2.0"
+    "php-sap/interfaces": "^2.0",
+    "php-sap/common": "^3.0"
   },
   "require-dev": {
     "ext-json": "*",
     "phpunit/phpunit": "^4.8",
-    "php-sap/integration-tests": "^1.0"
+    "php-sap/integration-tests": "^3.0"
   },
   "autoload": {
     "psr-4": {
