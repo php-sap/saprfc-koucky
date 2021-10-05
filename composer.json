@@ -21,12 +21,11 @@
     "remote function call",
     "koucky"
   ],
-  "provide": {
-    "php-sap/interfaces": "^2.0"
-  },
   "conflict": {
     "php-sap/saprfc-harding": "*",
-    "php-sap/saprfc-kralik": "*"
+    "php-sap/saprfc-kralik": "*",
+    "kba-team/php-sapnwrfc-harding": "*",
+    "kba-team/php-sapnwrfc-kralik": "*"
   },
   "minimum-stability": "stable",
   "require": {
